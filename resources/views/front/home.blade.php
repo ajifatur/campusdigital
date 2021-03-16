@@ -225,10 +225,10 @@
 <!-- Feature Section -->
 <section class="mitra-section spad bg-light">
   <div class="container">
-    <div class="row">
+    <div class="row" data-aos="fade-down" data-aos-duration="1500">
       <div class="col-12 col-lg-3">
         <div class="h-100 d-flex text-center text-lg-left" style="justify-content: center; align-items: center; width: 100%;">
-          <span data-aos="fade-right" data-aos-duration="1500">
+          <span>
             <h2 class="mb-3">Mitra Kami</h2>
             <span>Kami bekerjasama dengan banyak mitra, ayo gabung segera!</span>
             <!-- <a class="btn btn-register-2 rounded-2 mt-3 d-block d-lg-flex mx-auto mx-lg-0" href="/register{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}" style="width: fit-content">Daftar</a> -->
@@ -241,7 +241,7 @@
             <div class="col-lg-12">
               <div class="owl-carousel owl-theme" id="mitra">
         			  @foreach($mitra as $data)
-        				<div class="card border-0 shadow mx-3" data-aos="fade-left" data-aos-duration="1500">
+        				<div class="card border-0 shadow mx-3">
                   <div class="card-body">
           				  <img src="{{ asset('assets/images/mitra/'.$data->logo_mitra) }}">
                   </div>
@@ -383,16 +383,14 @@
           }
       }
     });
-  });
 
-  $(document).ready(function(){
     $("#mitra").owlCarousel({
       loop:true,
       autoplay:true,
       autoplayTimeout:2000,
       autoplayHoverPause:true,
       margin:0,
-	    dots:true,
+      dots:true,
       responsiveClass:true,
       responsive:{
           0:{
@@ -409,9 +407,7 @@
           }
       }
     });
-  });
 
-  $(document).ready(function(){
     $('#testimoni').owlCarousel({
       loop:true,
       autoplay:true,
@@ -443,6 +439,7 @@
       }
     });
   });
+
 </script>
 
 @endsection

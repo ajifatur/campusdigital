@@ -13,9 +13,31 @@
 				<li class="nav-item {{ Request::path() == '/' ? 'active' : '' }}">
 					<a class="nav-link" href="/{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Home</a>
 				</li>
-				<li class="nav-item {{ strpos(Request::url(), '/beasiswa') ? 'active' : '' }}">
-					<a class="nav-link" href="/beasiswa{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Beasiswa</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  Program
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="/program/pelatihan-digital-marketing-reguler">Pelatihan Digital Marketing Reguler</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item text-wrap" href="/program/program-mentoring-perisapan-uji-kompetensi-digital-marketing">Program Mentoring Perisapan Uji Kompetensi Digital Marketing</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="/program/pelatihan-pkdn-program-kerjasama">Pelatihan PKDN (Program Kerjasama)</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="/program/praktek-kerja-industri-pkl-online">Praktek Kerja Industri (PKL Online)</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="/program/kelas-industri-digital-marketing">Kelas Industri Digital Marketing</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="/program/training-of-trainer">Training Of Trainer</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item text-wrap" href="/program/uji-keahlian-digital-marketing-ukk-smk">Uji Keahlian Digital Marketing (UKK SMK)</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="/program/program-beasiswa">Program Beasiswa</a>
+					</div>
 				</li>
+<!-- 				<li class="nav-item {{ strpos(Request::url(), '/beasiswa') ? 'active' : '' }}">
+					<a class="nav-link" href="/beasiswa{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Beasiswa</a>
+				</li> -->
 				<li class="nav-item {{ strpos(Request::url(), '/afiliasi') ? 'active' : '' }}">
 					<a class="nav-link" href="/afiliasi{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Afiliasi</a>
 				</li>

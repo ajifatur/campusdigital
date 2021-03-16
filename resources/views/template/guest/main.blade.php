@@ -76,18 +76,13 @@
 		.account.dropdown-toggle:after{display: none;}
 		/*.info-message{font-size: calc(.2em + 1vw);}*/
 
-		@media (max-width: 768px){
-		    .icon-box-item .ib-icon {
-		        width: 76px;
-		        margin: 0 auto;
-		    }
-		    .icon-box-item:hover .ib-icon{
-		        color: #340369;
-		        background-color: transparent;
-		    }
-		    .ib-text {
-		        text-align: center;
-		    }
+		.owl-carousel .owl-item img{margin: auto; width: 80%}
+
+		@media (max-width: 991.98px){
+		    .icon-box-item .ib-icon {width: 76px; margin: 0 auto;}
+		    .icon-box-item:hover .ib-icon{color: #340369; background-color: transparent;}
+		    .ib-text{text-align: center}
+		    .owl-carousel .owl-item img{margin: auto; width: 60%}
 		}
 
     </style>
