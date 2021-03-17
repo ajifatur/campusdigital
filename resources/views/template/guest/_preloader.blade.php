@@ -1,5 +1,5 @@
 
 	<!-- Page Preloder -->
-	<div id="preloder">
+<!-- 	<div id="preloder">
 		<div class="loader"></div>
-	</div>
+	</div> -->

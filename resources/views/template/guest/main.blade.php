@@ -4,6 +4,7 @@
     @include('template/guest/_head')
     <style type="text/css">
 		html, body {font-family: Lato;}
+		html{scroll-behavior: smooth;}
 		p {font-size: 1rem;}
 		.btn-link-primary {color: #46157a;}
 		.btn-link-primary:hover {color: #46157a; text-decoration: underline;}
@@ -72,17 +73,64 @@
 		    padding: 3em 0em;
 		    margin-top: 5em;
 		}
-		/**{border: 1px solid red}*/
 		.account.dropdown-toggle:after{display: none;}
-		/*.info-message{font-size: calc(.2em + 1vw);}*/
-
+		.dropdown-item.active, .dropdown-item:active {text-decoration: none; color: #fff; background: #46157a}
 		.owl-carousel .owl-item img{margin: auto; width: 80%}
+		.sticky-sidebar{position: sticky; top: 6em; height: fit-content}
 
+		.custom-shape-divider-top-1615967202{position: absolute; left: 0; width: 100%; overflow: hidden; line-height: 0;}
+		.custom-shape-divider-top-1615967202 svg{position: relative; display: block; width: calc(100% + 1.3px); height: 89px;}
+		.custom-shape-divider-top-1615967202 .shape-fill{fill: #FFFFFF}
+		.package .list-group-item{background: unset; border: unset;}
+
+.custom-shape-divider-top-1615970510 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1615970510 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 89px;
+}
+
+.custom-shape-divider-top-1615970510 .shape-fill {
+    fill: #FFFFFF;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+/*----------------------------------------------------*/
+.custom-shape-divider-bottom-1615971570 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(0deg);
+}
+
+.custom-shape-divider-bottom-1615971570 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 89px;
+}
+
+.custom-shape-divider-bottom-1615971570 .shape-fill {
+    fill: #FDD100;
+}
 		@media (max-width: 991.98px){
 		    .icon-box-item .ib-icon {width: 76px; margin: 0 auto;}
 		    .icon-box-item:hover .ib-icon{color: #340369; background-color: transparent;}
 		    .ib-text{text-align: center}
 		    .owl-carousel .owl-item img{margin: auto; width: 60%}
+		    .account.dropdown-toggle:after{display: inline-block;}
+		    .sticky-sidebar{position: unset; top: unset; height: unset;}
 		}
 
     </style>

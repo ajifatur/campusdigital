@@ -13,26 +13,26 @@
 				<li class="nav-item {{ Request::path() == '/' ? 'active' : '' }}">
 					<a class="nav-link" href="/{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Home</a>
 				</li>
-				<li class="nav-item dropdown">
+				<li class="nav-item dropdown {{ strpos(Request::url(), '/program/') ? 'active' : '' }}">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					  Program
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					  <a class="dropdown-item" href="/program/pelatihan-digital-marketing-reguler">Pelatihan Digital Marketing Reguler</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/pelatihan-digital-marketing-reguler') ? 'active' : '' }}" href="/program/pelatihan-digital-marketing-reguler">Pelatihan Digital Marketing Reguler</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item text-wrap" href="/program/program-mentoring-perisapan-uji-kompetensi-digital-marketing">Program Mentoring Perisapan Uji Kompetensi Digital Marketing</a>
+					  <a class="dropdown-item text-wrap {{ strpos(Request::url(), '/program/program-mentoring-perisapan-uji-kompetensi-digital-marketing') ? 'active' : '' }}" href="/program/program-mentoring-perisapan-uji-kompetensi-digital-marketing">Program Mentoring Perisapan Uji Kompetensi Digital Marketing</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="/program/pelatihan-pkdn-program-kerjasama">Pelatihan PKDN (Program Kerjasama)</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/pelatihan-pkdn-program-kerjasama') ? 'active' : '' }}" href="/program/pelatihan-pkdn-program-kerjasama">Pelatihan PKDN (Program Kerjasama)</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="/program/praktek-kerja-industri-pkl-online">Praktek Kerja Industri (PKL Online)</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/praktek-kerja-industri-pkl-online') ? 'active' : '' }}" href="/program/praktek-kerja-industri-pkl-online">Praktek Kerja Industri (PKL Online)</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="/program/kelas-industri-digital-marketing">Kelas Industri Digital Marketing</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/kelas-industri-digital-marketing') ? 'active' : '' }}" href="/program/kelas-industri-digital-marketing">Kelas Industri Digital Marketing</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="/program/training-of-trainer">Training Of Trainer</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/training-of-trainer') ? 'active' : '' }}" href="/program/training-of-trainer">Training Of Trainer</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item text-wrap" href="/program/uji-keahlian-digital-marketing-ukk-smk">Uji Keahlian Digital Marketing (UKK SMK)</a>
+					  <a class="dropdown-item text-wrap {{ strpos(Request::url(), '/program/uji-keahlian-digital-marketing-ukk-smk') ? 'active' : '' }}" href="/program/uji-keahlian-digital-marketing-ukk-smk">Uji Keahlian Digital Marketing (UKK SMK)</a>
 					  <div class="dropdown-divider"></div>
-					  <a class="dropdown-item" href="/program/program-beasiswa">Program Beasiswa</a>
+					  <a class="dropdown-item {{ strpos(Request::url(), '/program/program-beasiswa') ? 'active' : '' }}" href="/program/program-beasiswa">Beasiswa</a>
 					</div>
 				</li>
 <!-- 				<li class="nav-item {{ strpos(Request::url(), '/beasiswa') ? 'active' : '' }}">
@@ -44,16 +44,16 @@
 				<li class="nav-item {{ strpos(Request::url(), '/artikel') ? 'active' : '' }}">
 					<a class="nav-link" href="/artikel{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Artikel</a>
 				</li>
-				<li class="nav-item {{ strpos(Request::url(), '/tentang-kami') ? 'active' : '' }}">
+				<li class="nav-item mb-2 mb-lg-0 {{ strpos(Request::url(), '/tentang-kami') ? 'active' : '' }}">
 					<a class="nav-link" href="/tentang-kami{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Tentang Kami</a>
 				</li>
 
 		        @if(Auth::guest())
 				<li class="nav-item">
-		          <a class="btn btn-theme-1 rounded-2" href="/login{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Masuk</a>
+		          <a class="btn btn-theme-1 rounded-2 btn-block mb-3 mb-lg-0" href="/login{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Masuk</a>
 		        </li>
 				<li class="nav-item">
-		          <a class="btn btn-theme-2 rounded-2" href="/register{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Daftar</a>
+		          <a class="btn btn-theme-2 rounded-2 btn-block mb-3 mb-lg-0" href="/register{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Daftar</a>
 		        </li>
 				@else
 				<!-- <li class="nav-item d-lg-none {{ strpos(Request::url(), '/register') ? 'active' : '' }}">
@@ -62,8 +62,9 @@
 
 
 				<li class="nav-item dropdown">
-					<a class="nav-link account dropdown-toggle p-0" href="#" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-					  <img src="{{ Auth::user()->foto != '' ? asset('assets/images/users/'.Auth::user()->foto) : asset('assets/images/default/user.jpg') }}" alt="user" class="rounded-circle pt-1" width="31">
+					<a class="nav-link account dropdown-toggle d-flex align-items-center p-0 pb-2 pb-lg-0" href="#" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+					  <img src="{{ Auth::user()->foto != '' ? asset('assets/images/users/'.Auth::user()->foto) : asset('assets/images/default/user.jpg') }}" alt="user" class="rounded-circle pt-lg-1 mr-2" width="31">
+					  <span class="d-lg-none">{{ Auth::user()->nama_user }}</span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarScrollingDropdown">
 					  <li><a class="dropdown-item" href="{{Auth::user()->is_admin==1? '/admin' : '/member'}}">Dashborad</a></li>
