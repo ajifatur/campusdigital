@@ -48,13 +48,13 @@ Route::group(['middleware' => ['guest']], function(){
 
 	// Program
 	Route::get('/program/pelatihan-digital-marketing-reguler', 'ProgramController@page1');
-	Route::get('/program/program-mentoring-perisapan-uji-kompetensi-digital-marketing', 'ProgramController@page2');
-	Route::get('/program/pelatihan-pkdn-program-kerjasama', 'ProgramController@page3');
+	Route::get('/program/paket-pelatihan-dan-sertifikasi-digital-marketing', 'ProgramController@page2');
+	Route::get('/program/pelatihan-pkdm-program-kerjasama', 'ProgramController@page3');
 	Route::get('/program/praktek-kerja-industri-pkl-online', 'ProgramController@page4');
 	Route::get('/program/kelas-industri-digital-marketing', 'ProgramController@page5');
 	Route::get('/program/training-of-trainer', 'ProgramController@page6');
-	Route::get('/program/uji-keahlian-digital-marketing-ukk-smk', 'ProgramController@page7');
-	Route::get('/program/program-beasiswa', 'ProgramController@page8');
+	Route::get('/program/uji-kompetensi-keahlian-digital-marketing-ukk-smk', 'ProgramController@page7');
+	Route::get('/program/beasiswa', 'ProgramController@page8');
 
 
 });

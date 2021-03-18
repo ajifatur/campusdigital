@@ -42,7 +42,7 @@
 		.btn-theme-1{background-color: #46157a; color: #ffffff; border: 2px solid #46157a}
 		.btn-theme-1:hover{color: #46157a!important; background-color: #ffffff!important; border: 2px solid #46157a!important}
 		.btn-theme-1-1{background-color: #46157a; color: #ffffff;}
-		.btn-theme-1:hover{color: #ffffff; background-color: #46157a;}
+		.btn-theme-1-1:hover{color: #ffffff; background-color: #2c0a50;}
 		.btn-theme-2{background-color: #fdd100; color: #46157a; border: 2px solid #fdd100}
 		.btn-theme-2:hover{color: #fdd100!important; background-color: #ffffff!important; border: 2px solid #fdd100!important}
 		.color-theme-1{color: #46157a;}
@@ -77,10 +77,6 @@
 		.dropdown-item.active, .dropdown-item:active {text-decoration: none; color: #fff; background: #46157a}
 		.owl-carousel .owl-item img{margin: auto; width: 80%}
 		.sticky-sidebar{position: sticky; top: 6em; height: fit-content}
-
-		.custom-shape-divider-top-1615967202{position: absolute; left: 0; width: 100%; overflow: hidden; line-height: 0;}
-		.custom-shape-divider-top-1615967202 svg{position: relative; display: block; width: calc(100% + 1.3px); height: 89px;}
-		.custom-shape-divider-top-1615967202 .shape-fill{fill: #FFFFFF}
 		.package .list-group-item{background: unset; border: unset;}
 
 .custom-shape-divider-top-1615970510 {
@@ -124,6 +120,45 @@
 .custom-shape-divider-bottom-1615971570 .shape-fill {
     fill: #FDD100;
 }
+/*--------------------------------------------------*/
+.custom-shape-divider-top-1616034455 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1616034455 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-top-1616034455 .shape-fill {
+    fill: #FDD100;
+}
+/*----------------------------------------------------*/
+.custom-shape-divider-bottom-1616034763 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-bottom-1616034763 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+}
+
+.custom-shape-divider-bottom-1616034763 .shape-fill {
+    fill: #FFF;
+}
+[v-cloak] { display: none; }
 		@media (max-width: 991.98px){
 		    .icon-box-item .ib-icon {width: 76px; margin: 0 auto;}
 		    .icon-box-item:hover .ib-icon{color: #340369; background-color: transparent;}
