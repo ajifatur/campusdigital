@@ -56,7 +56,12 @@ Route::group(['middleware' => ['guest']], function(){
 	Route::get('/program/uji-kompetensi-keahlian-digital-marketing-ukk-smk', 'ProgramController@page7');
 	Route::get('/program/beasiswa', 'ProgramController@page8');
 
+	// Cek Sertifikat
+	Route::get('/cek-sertifikat/{id}', 'SertifikatController@checkParticipant');
 
+	// Route::get('/qr-code', function(){
+	// 	return view('qr-code');
+	// });
 });
 
 // Admin Capabilities...
