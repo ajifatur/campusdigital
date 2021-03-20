@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pelatihan extends Model
+class PelatihanThumbnail extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'pelatihan';
+    protected $table = 'pelatihan_thumbnail';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = 'id_pelatihan';
+    protected $primaryKey = 'id_pt';
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +26,7 @@ class Pelatihan extends Model
      * @var array
      */
     protected $fillable = [
-        'nama_pelatihan', 'kategori_pelatihan', 'nomor_pelatihan', 'deskripsi_pelatihan', 'thumbnail_pelatihan', 'fee_member', 'fee_non_member', 'trainer', 'kode_trainer', 'tempat_pelatihan', 'tanggal_pelatihan_from', 'tanggal_pelatihan_to', 'tanggal_sertifikat_from', 'tanggal_sertifikat_to', 'materi_pelatihan', 'total_jam_pelatihan'
+        'pelatihan_thumbnail', 'uploaded_at',
     ];
 
     /**

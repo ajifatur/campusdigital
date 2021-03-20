@@ -37,10 +37,11 @@
         <!-- ============================================================== -->
         <div class="row">
             <!-- column -->
-            <div class="col-lg-3 col-md-5">
+            <div class="col-lg-4 col-md-5">
                 <!-- card -->
                 <div class="card shadow">
                     <div class="card-body">
+                        <img src="{{ $pelatihan->thumbnail_pelatihan != '' ? asset('assets/images/pelatihan/'.$pelatihan->thumbnail_pelatihan) : asset('assets/images/default/pelatihan.jpg') }}" class="img-fluid img-thumbnail mb-3" alt="Gambar">
 						@if($pelatihan->trainer != Auth::user()->id_user)
 							@if($cek_pelatihan != null)
 								@if($cek_pelatihan->fee_status == 1)
@@ -49,34 +50,45 @@
 									<div class="alert alert-warning text-center mb-5">Sedang Menunggu Verifikasi Pembayaran dari Admin</div>
 								@endif
 							@else
-							<a href="#" class="btn btn-primary btn-block btn-pelatihan mb-5"><i class="fa fa-pencil-alt mr-2"></i> Daftar Pelatihan</a>
+							<a href="#" class="btn btn-primary btn-block btn-pelatihan"><i class="fa fa-pencil-alt mr-2"></i> Daftar Pelatihan</a>
 							@endif
 							<form id="form" class="d-none" method="post" action="/member/pelatihan/daftar">
 								{{ csrf_field() }}
 								<input type="hidden" name="id" value="{{ $pelatihan->id_pelatihan }}">
 							</form>
 						@endif
-						<p class="h5">Nomor:</p>
-						<p>{{ $pelatihan->nomor_pelatihan }}</p>
-						<br>
-						<p class="h5">Waktu Pelatihan:</p>
-						<p>
-							{{ generate_date_range('join', $pelatihan->tanggal_pelatihan_from.' - '.$pelatihan->tanggal_pelatihan_to)['from'] }} s.d. {{ generate_date_range('join', $pelatihan->tanggal_pelatihan_from.' - '.$pelatihan->tanggal_pelatihan_to)['to'] }}
-						</p>
-						<br>
-						<p class="h5">Trainer:</p>
-						<p>{{ $pelatihan->nama_user }}</p>
                     </div>
                 </div>
                 <!-- card -->
             </div>
             <!-- column -->
             <!-- column -->
-            <div class="col-lg-9 col-md-7">
+            <div class="col-lg-8 col-md-7">
                 <!-- card -->
                 <div class="card shadow">
                     <div class="card-body">
-						<div class="ql-snow"><div class="ql-editor p-0">{!! html_entity_decode($pelatihan->deskripsi_pelatihan) !!}</div></div>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item d-md-flex justify-content-between">
+                                <span><label>Nomor:</label></span>
+                                <span>{{ $pelatihan->nomor_pelatihan }}</span>
+                            </li>
+                            <li class="list-group-item d-md-flex justify-content-between">
+                                <span><label>Waktu Pelatihan:</label></span>
+                                <span>{{ generate_date_range('join', $pelatihan->tanggal_pelatihan_from.' - '.$pelatihan->tanggal_pelatihan_to)['from'] }} s.d. {{ generate_date_range('join', $pelatihan->tanggal_pelatihan_from.' - '.$pelatihan->tanggal_pelatihan_to)['to'] }}</span>
+                            </li>
+                            <li class="list-group-item d-md-flex justify-content-between">
+                                <span><label>Trainer:</label></span>
+                                <span>{{ $pelatihan->nama_user }}</span>
+                            </li>
+                            <li class="list-group-item d-md-flex justify-content-between">
+                                <span><label>Biaya Pendaftaran:</label></span>
+                                <span>{{ $pelatihan->fee_member != 0 ? 'Rp '.number_format($pelatihan->fee_member,0,'.','.') : 'Gratis' }}</span>
+                            </li>
+                        </ul>
+                        <div class="pelatihan-deskripsi">
+                            <label>Deskripsi:</label>
+                            <div class="ql-snow"><div class="ql-editor p-0">{!! html_entity_decode($pelatihan->deskripsi_pelatihan) !!}</div></div>
+                        </div>
                     </div>
                 </div>
                 <!-- card -->
@@ -199,8 +211,10 @@
 <style type="text/css">
     .border-top, .border-bottom {padding: 1.25rem;}
     .form-control {border-color: #caccce;}
+    .pelatihan-deskripsi {padding: 0 1.25rem;}
 
 	/* Quill */
+    .ql-editor {white-space: normal;}
 	.ql-editor h2, .ql-editor h3 {margin-bottom: 1rem!important; font-weight: 600!important;}
 	.ql-editor p {margin-bottom: 1rem!important;}
 	.ql-editor ol {padding-left: 30px!important;}

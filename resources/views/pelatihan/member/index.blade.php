@@ -112,19 +112,23 @@
 							<div class="row">
 								@if(count($pelatihan)>0)
 									@foreach($pelatihan as $data)
-									<a class="col-md-6 col-lg-3 col-xlg-3" href="/member/pelatihan/detail/{{ $data->id_pelatihan }}">
+									<div class="col-md-6 col-lg-3 col-xlg-3">
 										<div class="card card-hover shadow">
-											<div class="box text-center">
-												<div class="row text-secondary">
-													<div class="col-sm-6 text-center text-sm-left"><i class="fa fa-calendar mr-2"></i>{{ explode(' ', generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['from'])[0] }}</div>
-													<div class="col-sm-6 text-center text-sm-right"><i class="fa fa-clock mr-2"></i>{{ explode(' ', generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['from'])[1] }} WIB</div>
-												</div>
-											    <img src="{{ asset('assets/images/default/pelatihan.png') }}" height="100">
-												<h6 class="text-dark mt-2 mb-1">{{ $data->nama_pelatihan }}</h4>
-												<div class="text-center text-secondary">{{ $data->nama_user }}</div>
+											<a href="/member/pelatihan/detail/{{ $data->id_pelatihan }}">
+												<img class="card-img-top" src="{{ $data->thumbnail_pelatihan != '' ? asset('assets/images/pelatihan/'.$data->thumbnail_pelatihan) : asset('assets/images/default/pelatihan.jpg') }}" alt="Gambar">
+											</a>
+											<div class="card-body">
+												<p class="pelatihan-title h4"><a href="/member/pelatihan/detail/{{ $data->id_pelatihan }}" title="{{ $data->nama_pelatihan }}">{{ $data->nama_pelatihan }}</a></p>
+												<div class="pelatihan-caption"><div>{{ $data->nama_user }}</div></div>
 											</div>
+                                            <div class="card-footer text-muted border border-top">
+                                                <div class="d-sm-flex justify-content-between">
+                                                    <span><i class="fa fa-calendar"></i> {{ explode(' ', generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['from'])[0] }}</span>
+                                                    <span><i class="fa fa-clock mr-2"></i>{{ explode(' ', generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['from'])[1] }} WIB</span>
+                                                </div>
+                                            </div>
 										</div>
-									</a>
+									</div>
 									@endforeach
 								@else
 								<div class="col-12">
@@ -172,6 +176,8 @@
     .form-control {border-color: #caccce;}
     .input-group-text {border-color: #caccce;}
 	.box {background-color: #ffffff!important; cursor: pointer;}
+	.pelatihan-title {line-height: 21px; height: 42px; display: -webkit-box !important; -webkit-line-clamp: 2; -moz-line-clamp: 2; -ms-line-clamp: 2; -o-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; -ms-box-orient: vertical; -o-box-orient: vertical; box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
+	.pelatihan-caption {line-height: 21px; height: 21px; display: -webkit-box !important; -webkit-line-clamp: 3; -moz-line-clamp: 3; -ms-line-clamp: 3; -o-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; -ms-box-orient: vertical; -o-box-orient: vertical; box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
 </style>
 
 @endsection

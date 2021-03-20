@@ -13,6 +13,7 @@ use App\DefaultRekening;
 use App\KategoriPelatihan;
 use App\Pelatihan;
 use App\PelatihanMember;
+use App\PelatihanThumbnail;
 use App\User;
 
 class PelatihanController extends Controller
@@ -129,7 +130,10 @@ class PelatihanController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
         // Jika tidak ada error
-        else{		
+        else{
+			// Upload gambar
+            $image_name = $request->thumbnail != '' ? upload_file_content($request->thumbnail, "assets/images/pelatihan/") : '';
+
 			// Generate nomor pelatihan
 			$check = Pelatihan::where('kategori_pelatihan','=',$request->kategori)->whereYear('tanggal_pelatihan_from','=',date('Y', strtotime(generate_date_range('explode', $request->tanggal_pelatihan)['from'])))->latest('tanggal_pelatihan_from')->first();
 			$nomor_pelatihan = generate_nomor_pelatihan($check, generate_kategori_pelatihan($request->kategori), date('Y', strtotime(generate_date_range('explode', $request->tanggal_pelatihan)['from'])));
@@ -155,6 +159,7 @@ class PelatihanController extends Controller
             $pelatihan->tanggal_pelatihan_to = generate_date_range('explode', $request->tanggal_pelatihan)['to'];
             $pelatihan->tanggal_sertifikat_from = generate_date_range('explode', $request->tanggal_sertifikat)['from'];
             $pelatihan->tanggal_sertifikat_to = generate_date_range('explode', $request->tanggal_sertifikat)['to'];
+            $pelatihan->thumbnail_pelatihan = $image_name;
             $pelatihan->nomor_pelatihan = $nomor_pelatihan;
             $pelatihan->deskripsi_pelatihan = htmlentities($html);
             $pelatihan->trainer = $request->trainer;
@@ -378,6 +383,9 @@ class PelatihanController extends Controller
         }
         // Jika tidak ada error
         else{			
+			// Upload gambar
+            $image_name = $request->thumbnail != '' ? upload_file_content($request->thumbnail, "assets/images/pelatihan/") : '';
+
             // Upload gambar dari quill
             $html = quill_image_upload($request->deskripsi, 'assets/images/konten-pelatihan/');
 			
@@ -400,6 +408,7 @@ class PelatihanController extends Controller
             $pelatihan->tanggal_sertifikat_from = generate_date_range('explode', $request->tanggal_sertifikat)['from'];
             $pelatihan->tanggal_sertifikat_to = generate_date_range('explode', $request->tanggal_sertifikat)['to'];
             $pelatihan->deskripsi_pelatihan = htmlentities($html);
+            $pelatihan->thumbnail_pelatihan = $image_name != '' ? $image_name : $pelatihan->thumbnail_pelatihan;
             $pelatihan->fee_member = str_replace('.', '', $request->fee_member);
             $pelatihan->fee_non_member = str_replace('.', '', $request->fee_umum);
 			$pelatihan->materi_pelatihan = json_encode($array);

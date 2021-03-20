@@ -67,7 +67,7 @@
 					  <span class="d-lg-none">{{ Auth::user()->nama_user }}</span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarScrollingDropdown">
-					  <li><a class="dropdown-item" href="{{Auth::user()->is_admin==1? '/admin' : '/member'}}">Dashborad</a></li>
+					  <li><a class="dropdown-item" href="{{Auth::user()->is_admin==1? '/admin' : '/member'}}">Dashboard</a></li>
 					  <li><a class="dropdown-item" href="{{Auth::user()->is_admin==1? '/admin/profil' : '/member/profil'}}">Profil</a></li>
 					  @if(Auth::user()->is_admin==0)
 					  <li><a class="dropdown-item" href="/member/afiliasi/cara-jualan">Afiliasi</a></li>

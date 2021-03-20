@@ -14,6 +14,7 @@
 		body {margin: 0px; font-family: 'Lato-Regular'; font-size: 18.5px; background-color: {{ get_warna_background_sertifikat() }};}
 		.pattern {position: absolute; top: 0px; left: 0px; width: 100%;}
 		#nomor-seri {font-size: 12px; position: absolute; top: 5px; left: 15px;}
+		#qr-code {position: absolute; top: 15px; right: 15px;}
 		#logo {position: absolute; left: 88px; top: {{ $pelatihan->id_pelatihan < 18 ? '50px' : '40px' }}; width: 950px; text-align: center;}
 		#img-logo {max-height: {{ $pelatihan->id_pelatihan < 18 ? '110px' : '120px' }};}
 		#text-sertifikat {font-family: 'Lato-Bold'; font-size: 66px; position: absolute; top: 145px; left: 88px; width: 950px; color: #d4b064; text-align: center; text-transform: uppercase;}
@@ -67,9 +68,12 @@
 		$status_pelatihan = '';
 @endphp
 <body>
-	<div class="pattern"><img src="{{ asset('assets/images/others/LINE 3-min.png') }}" width="100%"></div>
+	<div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div>
 	<div id="nomor-seri">Nomor Seri: {{ $member->kode_sertifikat }}</div>
 	<div id="logo"><img id="img-logo" src="{{ $pelatihan->id_pelatihan < 18 ? asset('assets/images/logo/'.get_logo()) : asset('assets/images/logo/6.png') }}"></div>
+	<div id="qr-code">
+		<img width="80" src="data:image/png;base64, {!! $qrcode !!}">
+	</div>
 	<div id="text-sertifikat">Sertifikat</div>
 	<div id="nomor-sertifikat">Nomor: {{ $pelatihan->nomor_pelatihan }}</div>
 	<div id="text-diberikan-kepada">Diberikan Kepada:</div>
@@ -99,7 +103,7 @@
 	<div id="line-bg-2"></div>
 	<div id="line-bg-1"></div>
 	<div id="page-break"></div>
-	<div class="pattern"><img src="{{ asset('assets/images/others/LINE 3-min.png') }}" width="100%"></div>
+	<div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div>
 	<div id="nomor-seri">Nomor Seri: {{ $member->kode_sertifikat }}</div>
 	<div id="text-materi">Materi {{ $pelatihan->kategori }}</div>
 	<div id="table">
