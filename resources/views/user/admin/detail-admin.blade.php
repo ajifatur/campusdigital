@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Profil Admin</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/user">User</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profil Admin</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Profil User',
+		'items' => [
+			['text' => 'User', 'url' => '/admin/user'],
+			['text' => 'Profil User', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->

@@ -9,21 +9,12 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Dashboard</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Dashboard',
+		'items' => [
+			['text' => 'Dashboard', 'url' => '#']
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -54,23 +45,15 @@
 				<div class="card shadow">
 					<div class="card-body">
 						<h5 class="card-title m-b-0">Statistik</h5>
-					</div>
-					<table class="table table-hover">
-						<thead class="bg-light">
-							<tr>
-								<th scope="col">Data</th>
-								<th scope="col">Jumlah</th>
-							</tr>
-						</thead>
-						<tbody>
+						<div class="list-group mt-3">
 							@foreach($array as $key=>$data)
-							<tr class="{{ $key == 0 ? 'bg-warning font-weight-bold' : '' }}">
-								<td><a href="{{ $data['url'] }}" class="link">{{ $data['data'] }}</a></td>
-								<td>{{ number_format($data['total'],0,'.','.') }}</td>
-							</tr>
+							<a href="{{ $data['url'] }}" class="list-group-item list-group-item-action d-flex justify-content-between {{ $key == 0 ? 'bg-warning' : '' }}">
+								<span>{{ $data['data'] }}</span>
+								<span>{{ number_format($data['total'],0,'.','.') }}</span>
+							</a>
 							@endforeach
-						</tbody>
-					</table>
+						</div>
+					</div>
 				</div>
 			</div>
         </div>
@@ -95,8 +78,6 @@
 <script>
 	$(window).on("load", function(){
 		count_visitor();
-		console.log(document.domain);
-		console.log(document.cookie);
 	});
 	
 	function count_visitor(){

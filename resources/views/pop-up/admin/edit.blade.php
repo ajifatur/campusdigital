@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Edit Pop-up</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/pop-up">Pop-up</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Edit Pop-up</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Edit Pop-up',
+		'items' => [
+			['text' => 'Pop-up', 'url' => '/admin/pop-up'],
+			['text' => 'Edit Pop-up', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,17 +31,16 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">Edit Pop-up</h5>
-                    <div class="card-body">
-                        @if(Session::get('message') != null)
-                            <div class="alert alert-success alert-dismissible mb-4 fade show" Blog="alert">
-                                {{ Session::get('message') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
-                        <form id="form" method="post" action="/admin/pop-up/update" enctype="multipart/form-data">
+                    <form id="form" method="post" action="/admin/pop-up/update" enctype="multipart/form-data">
+                        <div class="card-body">
+                            @if(Session::get('message') != null)
+                                <div class="alert alert-success alert-dismissible mb-4 fade show" Blog="alert">
+                                    {{ Session::get('message') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
                             {{ csrf_field() }}
 							<input type="hidden" name="id" value="{{ $popup->id_popup }}">
                             <div class="row">
@@ -124,11 +114,11 @@
                                     @endif
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="border-top">
-                        <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
-                    </div>
+                        </div>
+                        <div class="border-top">
+                            <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- card -->
             </div>

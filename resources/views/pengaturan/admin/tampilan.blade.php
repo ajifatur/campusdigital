@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Pengaturan Tampilan</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/#">Pengaturan</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Tampilan</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Pengaturan Tampilan',
+		'items' => [
+			['text' => 'Pengaturan', 'url' => '#'],
+			['text' => 'Tampilan', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,9 +31,8 @@
             <div class="col-md-6 mx-md-auto">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">Pengaturan Tampilan</h5>
-                    <div class="card-body">
-                        <form id="form" method="post" action="/admin/pengaturan/update">
+                    <form id="form" method="post" action="/admin/pengaturan/update">
+                        <div class="card-body">
                             {{ csrf_field() }}
                             <input type="hidden" name="category" value="2">
                             @if(Session::get('message') != null)
@@ -66,11 +56,11 @@
                                 </div>
 								@endforeach
                             </div>
-                        </form>
-                    </div>
-                    <div class="border-top">
-                        <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
-                    </div>
+                        </div>
+                        <div class="border-top">
+                            <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- card -->
             </div>
@@ -119,11 +109,6 @@
             },
             theme: 'bootstrap'
         });
-    });
-    
-    // Button Submit
-    $(document).on("click", "#btn-submit", function(e){
-        $("#form").submit();
     });
 </script>
 

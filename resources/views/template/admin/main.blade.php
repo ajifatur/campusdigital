@@ -31,6 +31,7 @@
 	    .modal {overflow-y: auto;}
         .hidden-date {display: none;}
     </style>
+    @include('template/admin/_css')
     @yield('css-extra')
 </head>
 

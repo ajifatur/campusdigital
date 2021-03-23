@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Tambah User</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/user">User</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Tambah User</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Tambah User',
+		'items' => [
+			['text' => 'User', 'url' => '/admin/user'],
+			['text' => 'Tambah User', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,9 +31,8 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">Tambah User</h5>
-                    <div class="card-body">
-                        <form id="form" method="post" action="/admin/user/store" enctype="multipart/form-data">
+                    <form id="form" method="post" action="/admin/user/store" enctype="multipart/form-data">
+                        <div class="card-body">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -54,7 +44,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Tanggal Lahir <span class="text-danger">*</span></label>
-                                    <input type="text" name="tanggal_lahir" class="form-control {{ $errors->has('tanggal_lahir') ? 'border-danger' : '' }}" value="{{ old('tanggal_lahir') }}" placeholder="Masukkan Tanggal Lahir (Format: yyyy-mm-dd)">
+                                    <input type="text" name="tanggal_lahir" class="form-control {{ $errors->has('tanggal_lahir') ? 'border-danger' : '' }}" value="{{ old('tanggal_lahir') }}" placeholder="Masukkan Tanggal Lahir (Format: dd/mm/yyyy)">
                                     @if($errors->has('tanggal_lahir'))
                                     <div class="small text-danger mt-1">{{ ucfirst($errors->first('tanggal_lahir')) }}</div>
                                     @endif
@@ -124,11 +114,11 @@
                                     @endif
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="border-top">
-                        <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
-                    </div>
+                        </div>
+                        <div class="border-top">
+                            <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- card -->
             </div>
@@ -156,15 +146,10 @@
     // Datepicker
     $(document).ready(function(){
         $("input[name=tanggal_lahir]").datepicker({
-            format: 'yyyy-mm-dd',
+            format: 'dd/mm/yyyy',
             todayHighlight: true,
             autoclose: true
         });
-    });
-
-    // Button Submit
-    $(document).on("click", "#btn-submit", function(e){
-        $("#form").submit();
     });
 </script>
 
