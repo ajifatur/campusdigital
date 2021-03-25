@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Withdrawal</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Transaksi</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Withdrawal</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Withdrawal',
+		'items' => [
+			['text' => 'Transaksi', 'url' => '#'],
+			['text' => 'Withdrawal', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,7 +31,6 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">Withdrawal</h5>
                     <div class="card-body">
                         @if(Session::get('message') != null)
                             <div class="alert alert-success alert-dismissible mb-4 fade show" role="alert">
@@ -51,13 +41,13 @@
                             </div>
                         @endif
                         <div class="table-responsive">
-                            <table id="table-history-withdrawal" class="table table-striped table-bordered">
+                            <table id="dataTable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="40">No.</th>
+                                        <th width="20"><input type="checkbox"></th>
                                         <th width="80">Invoice</th>
-                                        <th width="100">Tanggal</th>
-                                        <th>Nama User</th>
+                                        <th width="120">Waktu Penarikan</th>
+                                        <th>Identitas</th>
                                         <th>Ditransfer ke</th>
                                         <th width="100">Status</th>
                                         <th width="100">Jumlah (Rp.)</th>
@@ -65,13 +55,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $i = 1; @endphp
                                     @foreach($withdrawal as $data)
                                     <tr>
-                                        <td>{{ $i }}</td>
+                                        <td><input type="checkbox"></td>
                                         <td>{{ $data->inv_withdrawal }}</td>
-                                        <td><span title="{{ date('d/m/Y H:i:s', strtotime($data->withdrawal_at)) }}" style="text-decoration: underline; cursor: help;">{{ date('d/m/Y', strtotime($data->withdrawal_at)) }}</span></td>
-                                        <td><a href="/admin/user/detail/{{ $data->id_user }}">{{ $data->nama_user }}</a></td>
+                                        <td>
+											@if($data->withdrawal_at != null)
+                                                <span class="d-none">{{ $data->withdrawal_at }}</span>
+                                                {{ date('d/m/Y', strtotime($data->withdrawal_at)) }}
+                                                <br>
+                                                <small><i class="fa fa-clock mr-2"></i>{{ date('H:i', strtotime($data->withdrawal_at)) }} WIB</small>
+											@else
+											-
+											@endif
+                                        </td>
+                                        <td>
+                                            <a href="/admin/user/detail/{{ $data->id_user }}">{{ $data->nama_user }}</a>
+                                            <br>
+                                            <small><i class="fa fa-envelope mr-2"></i>{{ $data->email }}</small>
+                                            <br>
+                                            <small><i class="fa fa-phone mr-2"></i>{{ $data->nomor_hp }}</small>
+                                        </td>
                                         <td>{{ $data->nama_platform }} | {{ $data->nomor }} | {{ $data->atas_nama }}</td>
 										<td>
 											@if($data->withdrawal_status == 0)
@@ -80,16 +84,15 @@
 												<strong class="text-success">Diterima</strong>
 											@endif
 										</td>
-                                        <td>{{ number_format($data->nominal,0,',','.') }}</td>
+                                        <td>{{ number_format($data->nominal,0,',',',') }}</td>
                                         <td>
 											@if($data->withdrawal_status == 0)
-												<a href="#" class="btn btn-warning btn-sm btn-block btn-send" data-id="{{ $data->id_withdrawal }}" data-toggle="modal" data-target="#modal-send" title="Kirim Komisi"><i class="fa fa-chevron-right"></i></a>
+												<a href="#" class="btn btn-sm btn-warning btn-send" data-id="{{ $data->id_withdrawal }}" data-toggle="toggle" title="Kirim Komisi"><i class="fa fa-chevron-right"></i></a>
 											@else
-												<a href="{{ asset('assets/images/withdrawal/'.$data->withdrawal_proof) }}" class="btn btn-success btn-sm btn-block image-popup-vertical-fit" title="Bukti Transfer"><i class="fa fa-image"></i></a>
+												<a href="{{ asset('assets/images/withdrawal/'.$data->withdrawal_proof) }}" class="btn btn-sm btn-primary btn-magnify-popup" data-toggle="tooltip" title="Bukti Transfer"><i class="fa fa-image"></i></a>
 											@endif
 										</td>
                                     </tr>
-                                    @php $i++; @endphp
                                     @endforeach
                                 </tbody>
                             </table>
@@ -153,33 +156,16 @@
 
 @section('js-extra')
 
-<script src="{{ asset('templates/matrix-admin/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.22/sorting/datetime-moment.js"></script>
-<script src="{{ asset('templates/matrix-admin/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('templates/matrix-admin/assets/libs/magnific-popup/meg.init.js') }}"></script>
 <script type="text/javascript">
     // DataTable
-	$.fn.dataTable.moment("DD/MM/YYYY");
-    $('#table-history-withdrawal').DataTable({
-        "fnDrawCallback": function(){
-            $('.image-popup-vertical-fit').magnificPopup({
-                type: 'image',
-                closeOnContentClick: true,
-                closeBtnInside: false,
-                fixedContentPos: true,
-                image: {
-                  verticalFit: true
-                },
-            });
-        }
-    });
+    generate_datatable("#dataTable");
 
     /* Upload File */
     $(document).on("click", ".btn-send", function(e){
         e.preventDefault();
 		var id = $(this).data("id");
 		$("input[name=id_withdrawal]").val(id);
+        $("#modal-send").modal("show");
     });
 	
     $(document).on("click", "#btn-choose", function(e){

@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Data Artikel</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/artikel">Artikel</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Data Artikel</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Data Artikel',
+		'items' => [
+			['text' => 'Artikel', 'url' => '/admin/artikel'],
+			['text' => 'Data Artikel', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,14 +31,9 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <div class="card-title border-bottom">
-                        <div class="row">
-                            <div class="col-12 col-sm py-1 mb-2 mb-sm-0 text-center text-sm-left">
-                                <h5 class="mb-0">Data Artikel</h5>
-                            </div>
-                             <div class="col-12 col-sm-auto text-center text-sm-left">
-                                <a href="/admin/artikel/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Artikel</a>
-                            </div>
+                    <div class="card-title border-bottom d-sm-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="/admin/artikel/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Data</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -60,29 +46,39 @@
                             </div>
                         @endif
                         <div class="table-responsive">
-                            <table id="table" class="table table-striped table-bordered">
+                            <table id="dataTable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="40">No.</th>
+                                        <th width="20"><input type="checkbox"></th>
                                         <th>Judul Artikel</th>
                                         <th width="150">Author</th>
                                         <th width="100">Waktu</th>
-                                        <th width="40">Edit</th>
-                                        <th width="40">Hapus</th>
+                                        <th width="60">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $i = 1; @endphp
                                     @foreach($blog as $data)
                                     <tr>
-                                        <td>{{ $i }}</td>
+                                        <td><input type="checkbox"></td>
                                         <td><a href="/artikel/{{ $data->blog_permalink }}">{{ $data->blog_title }}</a></td>
-                                        <td><a href="/admin/user/detail/{{ $data->id_user }}">{{ $data->nama_user }}</a><br><small>{{ $data->email }}</small></td>
-                                        <td><span title="{{ date('d/m/Y H:i:s', strtotime($data->blog_at)) }}" style="text-decoration: underline; cursor: help;">{{ date('d/m/Y', strtotime($data->blog_at)) }}</span></td>
-                                        <td><a href="/admin/artikel/edit/{{ $data->id_blog }}" class="btn btn-warning btn-sm btn-block" title="Edit"><i class="fa fa-edit"></i></a></td>
-                                        <td><a href="#" class="btn btn-danger btn-sm btn-block btn-delete" data-id="{{ $data->id_blog }}" title="Hapus"><i class="fa fa-trash"></i></a></td>
+                                        <td>
+                                            <a href="/admin/user/detail/{{ $data->id_user }}">{{ $data->nama_user }}</a>
+                                            <br>
+                                            <small><i class="fa fa-envelope mr-2"></i>{{ $data->email }}</small>
+                                        </td>
+										<td>
+                                            <span class="d-none">{{ $data->blog_at }}</span>
+                                            {{ date('d/m/Y', strtotime($data->blog_at)) }}
+                                            <br>
+                                            <small><i class="fa fa-clock mr-2"></i>{{ date('H:i', strtotime($data->blog_at)) }} WIB</small>
+                                        </td>
+                                        <td>
+                                            <div class="btn btn-group">
+                                                <a href="/admin/artikel/edit/{{ $data->id_blog }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="{{ $data->id_blog }}" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    @php $i++; @endphp
                                     @endforeach
                                 </tbody>
                             </table>
@@ -114,30 +110,9 @@
 
 @section('js-extra')
 
-<script src="{{ asset('templates/matrix-admin/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.22/sorting/datetime-moment.js"></script>
 <script type="text/javascript">
     // DataTable
-	$.fn.dataTable.moment("DD/MM/YYYY");
-    $('#table').DataTable();
-
-    // Button Delete
-    $(document).on("click", ".btn-delete", function(e){
-        e.preventDefault();
-        var id = $(this).data("id");
-        var ask = confirm("Anda yakin ingin menghapus data ini?");
-        if(ask){
-            $("#id").val(id);
-            $("#form").submit();
-        }
-    });
+    generate_datatable("#dataTable");
 </script>
-
-@endsection
-
-@section('css-extra')
-
-<link href="{{ asset('templates/matrix-admin/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
 
 @endsection

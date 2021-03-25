@@ -109,7 +109,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->username = $request->username;
             $user->password = bcrypt($request->password);
-            $user->tanggal_lahir = $request->tanggal_lahir;
+            $user->tanggal_lahir = generate_date_format($request->tanggal_lahir, 'y-m-d');
             $user->jenis_kelamin = $request->jenis_kelamin;
             $user->nomor_hp = $request->nomor_hp;
             $user->reference = '';
@@ -299,7 +299,7 @@ class UserController extends Controller
             // Menyimpan data
             $user = User::find($request->id);
             $user->nama_user = $request->nama_user;
-            $user->tanggal_lahir = $request->tanggal_lahir;
+            $user->tanggal_lahir = generate_date_format($request->tanggal_lahir, 'y-m-d');
             $user->jenis_kelamin = $request->jenis_kelamin;
             $user->nomor_hp = $request->nomor_hp;
             $user->email = $request->email;

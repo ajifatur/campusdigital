@@ -9,22 +9,13 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Detail Pop-up</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/pop-up">Pop-up</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Detail Pop-up</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Detail Pop-up',
+		'items' => [
+			['text' => 'Pop-up', 'url' => '/admin/pop-up'],
+			['text' => 'Detail Pop-up', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -40,13 +31,15 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">{{ $popup->popup_judul }}</h5>
                     <div class="card-body">
 						<div class="row">
 							<div class="col-lg-auto">
 								<img src="{{ asset('assets/images/pop-up/'.$popup->popup_gambar) }}" class="img-thumbnail" style="max-width: 300px">
 							</div>
 							<div class="col-lg mt-3 mt-lg-0">
+								<strong>Judul:</strong>
+                                <p>{{ $popup->popup_judul }}</p>
+								<p>{{ generate_date(date('Y-m-d', strtotime($popup->popup_from))) }} sampai {{ generate_date(date('Y-m-d', strtotime($popup->popup_to))) }}.</p>
 								<strong>Waktu:</strong>
 								<p>{{ generate_date(date('Y-m-d', strtotime($popup->popup_from))) }} sampai {{ generate_date(date('Y-m-d', strtotime($popup->popup_to))) }}.</p>
 								<strong>Deskripsi:</strong>

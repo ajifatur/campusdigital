@@ -9,23 +9,14 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Data Slider</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Konten Web</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/konten-web/slider">Slider</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Data Slider</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Data Slider',
+		'items' => [
+			['text' => 'Konten Web', 'url' => '/admin/konten-web'],
+			['text' => 'Slider', 'url' => '/admin/konten-web/slider'],
+			['text' => 'Data Slider', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -41,14 +32,9 @@
             <div class="col-lg-12">
                 <!-- card -->
                 <div class="card shadow">
-                    <div class="card-title border-bottom">
-                        <div class="row">
-                            <div class="col-12 col-sm py-1 mb-2 mb-sm-0 text-center text-sm-left">
-                                <h5 class="mb-0">Data Slider</h5>
-                            </div>
-                             <div class="col-12 col-sm-auto text-center text-sm-left">
-                                <a href="/admin/konten-web/slider/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Slider</a>
-                            </div>
+                    <div class="card-title border-bottom d-sm-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="/admin/konten-web/slider/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Data</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -61,29 +47,30 @@
                             </div>
                         @endif
                         <div class="table-responsive">
-                            <table id="table" class="table table-striped table-bordered">
+                            <table id="dataTable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="40">No.</th>
+                                        <th width="20"><input type="checkbox"></th>
                                         <th>Slider</th>
                                         <th width="150">URL</th>
                                         <th width="100">Status</th>
-                                        <th width="40">Edit</th>
-                                        <th width="40">Hapus</th>
+                                        <th width="60">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $i = 1; @endphp
                                     @foreach($slider as $data)
                                     <tr>
-                                        <td>{{ $i }}</td>
-										<td><a href="{{ asset('assets/images/slider/'.$data->slider) }}" class="image-popup-vertical-fit"><img src="{{ asset('assets/images/slider/'.$data->slider) }}" class="img-thumbnail" style="max-height: 150px;"></a></td>
+                                        <td><input type="checkbox"></td>
+										<td><a href="{{ asset('assets/images/slider/'.$data->slider) }}" class="btn-magnify-popup"><img src="{{ asset('assets/images/slider/'.$data->slider) }}" class="img-thumbnail" style="max-height: 150px;"></a></td>
                                         <td>{{ $data->slider_url != '' ? $data->slider_url : '-' }}</td>
                                         <td>{{ $data->status_slider == 1 ? 'Tampilkan' : 'Sembunyikan' }}</td>
-                                        <td><a href="/admin/konten-web/slider/edit/{{ $data->id_slider }}" class="btn btn-warning btn-sm btn-block" title="Edit"><i class="fa fa-edit"></i></a></td>
-                                        <td><a href="#" class="btn btn-danger btn-sm btn-block btn-delete" data-id="{{ $data->id_slider }}" title="Hapus"><i class="fa fa-trash"></i></a></td>
+                                        <td>
+                                            <div class="btn btn-group">
+                                                <a href="/admin/konten-web/slider/edit/{{ $data->id_slider }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="{{ $data->id_slider }}" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    @php $i++; @endphp
                                     @endforeach
                                 </tbody>
                             </table>
@@ -115,46 +102,9 @@
 
 @section('js-extra')
 
-<script src="{{ asset('templates/matrix-admin/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
-<script src="{{ asset('templates/matrix-admin/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('templates/matrix-admin/assets/libs/magnific-popup/meg.init.js') }}"></script>
 <script type="text/javascript">
     // DataTable
-    $('#table').DataTable({
-        "fnDrawCallback": function(){
-            $('.image-popup-vertical-fit').magnificPopup({
-                type: 'image',
-                closeOnContentClick: true,
-                closeBtnInside: false,
-                fixedContentPos: true,
-                image: {
-                  verticalFit: true
-                },
-                zoom: {
-                  enabled: true,
-                  duration: 300 // don't foget to change the duration also in CSS
-                },
-            });
-        }
-    });
-
-    // Button Delete Slider
-    $(document).on("click", ".btn-delete", function(e){
-        e.preventDefault();
-        var id = $(this).data("id");
-        var ask = confirm("Anda yakin ingin menghapus data ini?");
-        if(ask){
-            $("#id").val(id);
-            $("#form").submit();
-        }
-    });
+    generate_datatable("#dataTable");
 </script>
-
-@endsection
-
-@section('css-extra')
-
-<link href="{{ asset('templates/matrix-admin/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ asset('templates/matrix-admin/assets/libs/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet">
 
 @endsection
