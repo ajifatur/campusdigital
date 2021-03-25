@@ -9,23 +9,14 @@
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
-     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Edit Mitra</h4>
-                <div class="ml-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Konten Web</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/konten-web/mitra">Mitra</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Edit Mitra</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+	@include('template/admin/_breadcrumb', ['breadcrumb' => [
+		'title' => 'Edit Mitra',
+		'items' => [
+			['text' => 'Konten Web', 'url' => '/admin/konten-web'],
+			['text' => 'Mitra', 'url' => '/admin/konten-web/mitra'],
+			['text' => 'Edit Mitra', 'url' => '#'],
+		]
+	]])
     <!-- ============================================================== -->
     <!-- End Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -41,9 +32,8 @@
             <div class="col-lg-6 mx-auto">
                 <!-- card -->
                 <div class="card shadow">
-                    <h5 class="card-title border-bottom">Edit Mitra</h5>
-                    <div class="card-body">
-                        <form id="form" method="post" action="/admin/konten-web/mitra/update" enctype="multipart/form-data">
+                    <form id="form" method="post" action="/admin/konten-web/mitra/update" enctype="multipart/form-data">
+                        <div class="card-body">
                             {{ csrf_field() }}
 							<input type="hidden" name="id" value="{{ $mitra->id_mitra }}">
                             <div class="row">
@@ -64,11 +54,11 @@
 									<input type="hidden" name="gambar" id="src-img">
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="border-top">
-                        <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
-                    </div>
+                        </div>
+                        <div class="border-top">
+                            <button id="btn-submit" type="submit" class="btn btn-success">Simpan</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- card -->
             </div>

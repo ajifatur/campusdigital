@@ -54,7 +54,7 @@
                                         <th>Slider</th>
                                         <th width="150">URL</th>
                                         <th width="100">Status</th>
-                                        <th width="60">Opsi</th>
+                                        <th width="40">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
