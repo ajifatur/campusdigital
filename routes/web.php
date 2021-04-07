@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => ['cors']], function(){
+	//test
+	Route::get('/jsonuser','UserController@json');
+});
 
 // Guest Capabilities...
 Route::group(['middleware' => ['guest']], function(){
@@ -59,8 +63,6 @@ Route::group(['middleware' => ['guest']], function(){
 	// Cek Sertifikat
 	Route::get('/cek-sertifikat/{id}', 'SertifikatController@checkParticipant');
 
-	//test
-	Route::get('/jsonuser','UserController@json');
 	// Route::get('/qr-code', function(){
 	// 	return view('qr-code');
 	// });
