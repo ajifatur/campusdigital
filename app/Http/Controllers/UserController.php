@@ -484,4 +484,10 @@ class UserController extends Controller
         // Redirect
         return redirect('/admin/user')->with(['message' => 'Berhasil menghapus data.']);
     }
+
+    public function json()
+    {
+        $user = User::get()->pluck('id_user','nama_user','username','email');
+        echo json_encode($user);
+    }
 }

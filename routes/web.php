@@ -59,6 +59,8 @@ Route::group(['middleware' => ['guest']], function(){
 	// Cek Sertifikat
 	Route::get('/cek-sertifikat/{id}', 'SertifikatController@checkParticipant');
 
+	//test
+	Route::get('/jsonuser','UserController@json');
 	// Route::get('/qr-code', function(){
 	// 	return view('qr-code');
 	// });
