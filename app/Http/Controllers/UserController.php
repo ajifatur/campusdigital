@@ -487,7 +487,17 @@ class UserController extends Controller
 
     public function json()
     {
-        $user = User::get()->pluck('id_user','nama_user','username','email');
-        echo json_encode($user);
+        $users = [];
+        $user = User::get();
+        
+        foreach($user as $data){
+             $add['id'] = $data->id_user;
+             $add['nama'] = $data->nama_user;
+             $add['username'] = $data->username;
+             array_push($users,$add);
+        }
+
+        echo json_encode($users);
+        
     }
 }
