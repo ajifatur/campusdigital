@@ -96,6 +96,14 @@ if(!function_exists('get_tagline')){
     }
 }
 
+// Get keywords
+if(!function_exists('get_keywords')){
+    function get_keywords(){  
+        $data = DB::table('settings')->where('setting_key','keywords')->first();
+        return $data->setting_value; 
+    }
+}
+
 // Get icon
 if(!function_exists('get_icon')){
     function get_icon(){  

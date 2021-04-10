@@ -129,7 +129,7 @@
                 </div>
                 <div class="col-12 col-lg-6 d-none d-lg-block">
                     <div class="image-login">
-                        <img src="{{ asset('assets/images/illustration/undraw_mobile_login_ikmv.svg') }}" alt="">
+                        <img src="{{ asset('assets/images/illustration/undraw_Login_re_4vu2.svg') }}" alt="">
                     </div>
                 </div>
             </div>
