@@ -3,8 +3,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{{ get_tagline() }}"/>
+	<meta name="keywords" content="{{ get_keywords() }}"/>
 	<meta property="og:title" content="{{ get_website_name() }}"/>
 	<meta property="og:description" content="{{ get_tagline() }}"/>
+	<meta property="og:keywords" content="{{ get_keywords() }}"/>
 	
 	<!-- Favicon -->
 	<link href="{{ asset('assets/images/logo/'.get_icon()) }}" rel="shortcut icon"/>

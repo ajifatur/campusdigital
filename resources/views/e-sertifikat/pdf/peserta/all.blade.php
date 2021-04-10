@@ -20,7 +20,7 @@
 		#text-sertifikat {font-family: 'Lato-Bold'; font-size: 66px; position: absolute; top: 145px; left: 88px; width: 950px; color: #d4b064; text-align: center; text-transform: uppercase;}
 		#nomor-sertifikat {font-size: 29px; position: absolute; top: 242px; left: 88px; width: 950px; text-align: center;}
 		#text-diberikan-kepada {font-family: 'Lato-Bold'; font-size: 23px; position: absolute; top: 302px; left: 88px; width: 950px; text-align: center;}
-		#nama {font-family: 'Lato-Bold-Italic'; font-size: 58px; position: absolute; top: 325px; left: 88px; width: 950px; text-align: center; text-decoration: underline;}
+		#nama {font-family: 'Lato-Bold-Italic'; font-size: {{ $member->id_user == 642 || $member->id_user == 650 ? '40px' : '58px' }}; position: absolute; top: {{ $member->id_user == 642 || $member->id_user == 650 ? '340px' : '325px' }}; left: 88px; width: 950px; text-align: center; text-decoration: underline;}
 		#tipe {font-family: 'Lato-Bold'; font-size: 21px; position: absolute; top: 437px; left: 88px; width: 950px; text-align: center;}
 		#deskripsi {position: absolute; top: 488px; left: 88px; width: 950px; line-height: 20px; text-align: center;}
 		#judul {font-family: 'Lato-Bold';}
@@ -68,7 +68,7 @@
 		$status_pelatihan = '';
 @endphp
 <body>
-	<div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div>
+	<!--<div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div>-->
 	<div id="nomor-seri">Nomor Seri: {{ $member->kode_sertifikat }}</div>
 	<div id="logo"><img id="img-logo" src="{{ $pelatihan->id_pelatihan < 18 ? asset('assets/images/logo/'.get_logo()) : asset('assets/images/logo/6.png') }}"></div>
 	<div id="qr-code">
