@@ -145,23 +145,44 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function verify(Request $request)
-    {
-        // Get email
-        $email = $request->query('email');
-		
+    {		
 		// Get user
-		$user = User::where('email','=',$email)->first();
-		$user->email_verified = 1;
-		$user->save();
-		
-		// Get komisi
-		$komisi = Komisi::where('id_user','=',$user->id_user)->first();
-		
-		// Send Mail
-		// Mail::to($user->email)->send(new EmailVerificationMail($user->id_user));
-		Mail::to($user->email)->send(new RegisterMail($user->id_user, $komisi->id_komisi));
-		
-		// Redirect
-		return redirect('/member');
+		$user = User::where('email','=',$request->query('email'))->first();
+
+        // Jika user tidak ditemukan
+        if(!$user){
+            // View
+            return view('front/verify', [
+                'user' => $user,
+                'status' => 0,
+            ]);
+        }
+        // Jika user ditemukan
+        else{
+            // Jika user belum terverifikasi
+            if($user->email_verified == 0){
+                // Update status verifikasi email
+                $user->email_verified = 1;
+                $user->save();
+                
+                // Get komisi
+                $komisi = Komisi::where('id_user','=',$user->id_user)->first();
+                
+                // Send Mail
+                // Mail::to($user->email)->send(new EmailVerificationMail($user->id_user));
+                Mail::to($user->email)->send(new RegisterMail($user->id_user, $komisi->id_komisi));
+                
+                // Redirect
+                return redirect('/member');
+            }
+            // Jika user sudah terverifikasi
+            else{
+                // View
+                return view('front/verify', [
+                    'user' => $user,
+                    'status' => 1,
+                ]);
+            }
+        }
     }	
 }
