@@ -103,7 +103,7 @@
 	<div id="line-bg-2"></div>
 	<div id="line-bg-1"></div>
 	<div id="page-break"></div>
-	<div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div>
+	<!-- <div class="pattern"><img src="{{ asset('assets/images/others/bg-pattern.png') }}" width="100%"></div> -->
 	<div id="nomor-seri">Nomor Seri: {{ $member->kode_sertifikat }}</div>
 	<div id="text-materi">Materi {{ $pelatihan->kategori }}</div>
 	<div id="table">
