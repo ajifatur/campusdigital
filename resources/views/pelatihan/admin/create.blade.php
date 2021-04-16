@@ -136,8 +136,6 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>Materi <span class="text-danger">*</span></label>
-									<br>
-									<button class="btn btn-sm btn-primary btn-add" title="Tambah"><i class="fa fa-plus mr-2"></i>Tambah Materi</button>
 									<div class="table-responsive mt-2">
 										<table class="table table-bordered" id="table-materi">
 											<tbody>
@@ -150,6 +148,7 @@
 											</tbody>
 										</table>
 									</div>
+									<button class="btn btn-sm btn-primary btn-add" title="Tambah"><i class="fa fa-plus mr-2"></i>Tambah Materi</button>
 								</div>
                                 <div class="form-group col-md-12">
                                     <label>Deskripsi <span class="text-danger">*</span></label>
