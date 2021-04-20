@@ -80,6 +80,13 @@
                                     <small class="text-danger">{{ ucfirst($errors->first('tag')) }}</small>
                                     @endif
                                 </div>
+                                <div class="form-group col-lg-4 col-md-6">
+                                    <label>Kontributor</label>
+                                    <input type="text" name="kontributor" class="form-control {{ $errors->has('kontributor') ? 'is-invalid' : '' }}" value="{{ $blog->kontributor }}" placeholder="Masukkan Kontributor">
+                                    @if($errors->has('kontributor'))
+                                    <small class="text-danger">{{ ucfirst($errors->first('kontributor')) }}</small>
+                                    @endif
+                                </div>
                                 <div class="form-group col-md-12">
                                     <label>Konten <span class="text-danger">*</span></label>
                                     <textarea name="konten" id="konten" class="d-none"></textarea>

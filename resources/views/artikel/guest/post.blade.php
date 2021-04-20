@@ -28,10 +28,10 @@
             <div class="col-12 p-1 text-secondary small" style="background-color: #fdd100;">
               <div class="row">
                 <div class="col-md">
-                  <span title="{{ date('Y-m-d H:i:s', strtotime($blog->blog_at)) }}"><i class="fa fa-clock-o mr-2"></i> {{ generate_date($blog->blog_at) }}</span>
+                  <span title="{{ date('Y-m-d H:i:s', strtotime($blog->blog_at)) }}"><i class="fa fa-calendar mr-2"></i> {{ time_elapsed_string($blog->blog_at) }}</span>
                 </div>
                 <div class="col-md">
-                  <i class="fa fa-user mr-2"></i> {{ $blog->nama_user }}
+                  <i class="fa fa-user mr-2"></i> <a href="{{ $blog->kontributor != '' ? '/kontributor/'.$blog->kontributor_slug : '/author/'.$blog->username }}{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">{{ $blog->kontributor != '' ? $blog->kontributor : $blog->nama_user }}</a>
                 </div>
               </div>
             </div>

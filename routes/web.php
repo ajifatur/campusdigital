@@ -30,6 +30,8 @@ Route::group(['middleware' => ['guest']], function(){
 	Route::get('/artikel/{permalink}', 'BlogController@post');
 	Route::get('/kategori/{permalink}', 'BlogController@categories');
 	Route::get('/tag/{permalink}', 'BlogController@tags');
+	Route::get('/author/{permalink}', 'BlogController@postsByAuthor');
+	Route::get('/kontributor/{permalink}', 'BlogController@postsByContributor');
 	Route::post('/search', 'BlogController@search');
 	Route::post('/komentar', 'BlogController@comment');
 	Route::post('/komentar/delete', 'BlogController@deleteComment');

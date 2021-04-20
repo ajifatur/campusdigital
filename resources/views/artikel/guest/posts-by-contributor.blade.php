@@ -10,7 +10,8 @@
     <h2>Artikel</h2>
     <nav class="site-breadcrumb">
       <a class="sb-item" href="/{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Home</a>
-      <span class="sb-item active">Artikel</span>
+      <a class="sb-item" href="/artikel{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Artikel</a>
+      <span class="sb-item active">Kontributor: {{ $kontributor }}</span>
     </nav>
   </div>
 </section>
@@ -37,9 +38,9 @@
       </div>
       @endforeach
     </div>
-    <div class="row mt-3" id="pagination">
-      {!! $blogs->links() !!}
-    </div>
+	<div class="row mt-3" id="pagination">
+		{!! $blogs->links() !!}
+	</div>
   </div>
 </section>
 <!-- Info Section end -->
@@ -72,8 +73,8 @@
   .page-link{color: #46157a}
   .page-link:hover{color: #46157a}
 
-  .card-body {padding-top: 1rem; padding-bottom: 1rem;}
-	.card-title {margin-bottom: 0; line-height: 22px; height: 44px; display: -webkit-box !important; -webkit-line-clamp: 2; -moz-line-clamp: 2; -ms-line-clamp: 2; -o-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; -ms-box-orient: vertical; -o-box-orient: vertical; box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
+.card-body {padding-top: 1rem; padding-bottom: 1rem;}
+.card-title {margin-bottom: 0; line-height: 22px; height: 44px; display: -webkit-box !important; -webkit-line-clamp: 2; -moz-line-clamp: 2; -ms-line-clamp: 2; -o-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; -ms-box-orient: vertical; -o-box-orient: vertical; box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
 </style>
 
 @endsection
