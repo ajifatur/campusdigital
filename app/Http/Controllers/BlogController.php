@@ -492,7 +492,7 @@ class BlogController extends Controller
         $user = User::where('username','=',$author)->first();
 
         // Data artikel
-        $blogs = Blog::join('users','blog.author','=','users.id_user')->where('author','=',$user->id_user)->where('kontributor','=','')->orderBy('blog_at','desc')->paginate(9);
+        $blogs = Blog::join('users','blog.author','=','users.id_user')->where('author','=',$user->id_user)->where('kontributor','=','')->orWhere('kontributor','=',null)->orderBy('blog_at','desc')->paginate(9);
 
         // View
         return view('artikel/guest/posts-by-author', [
