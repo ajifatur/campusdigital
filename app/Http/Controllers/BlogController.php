@@ -132,6 +132,8 @@ class BlogController extends Controller
             $blog->blog_tag = implode(",", $array_id);
             $blog->konten = htmlentities($html);
             $blog->author = Auth::user()->id_user;
+            $blog->kontributor = $request->kontributor != '' ? $request->kontributor : '';
+            $blog->kontributor_slug = $request->kontributor != '' ? generate_permalink($request->kontributor) : '';
             $blog->blog_at = date('Y-m-d H:i:s');
             $blog->save();
         }
@@ -252,6 +254,8 @@ class BlogController extends Controller
             $blog->blog_kategori = $request->kategori;
             $blog->blog_tag = implode(",", $array_id);
             $blog->konten = htmlentities($html);
+            $blog->kontributor = $request->kontributor != '' ? $request->kontributor : '';
+            $blog->kontributor_slug = $request->kontributor != '' ? generate_permalink($request->kontributor) : '';
             $blog->save();
         }
 
@@ -473,5 +477,49 @@ class BlogController extends Controller
 
         // Redirect
         return redirect('/artikel/'.$blog->blog_permalink);
+    }
+
+    /**
+     * Menampilkan artikel berdasarkan author
+     *
+     * string $author
+     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    public function postsByAuthor(Request $request, $author)
+    {
+        // Get user
+        $user = User::where('username','=',$author)->first();
+
+        // Data artikel
+        $blogs = Blog::join('users','blog.author','=','users.id_user')->where('author','=',$user->id_user)->where('kontributor','=','')->orderBy('blog_at','desc')->paginate(9);
+
+        // View
+        return view('artikel/guest/posts-by-author', [
+            'user' => $user,
+            'blogs' => $blogs,
+        ]);
+    }
+
+    /**
+     * Menampilkan artikel berdasarkan kontributor
+     *
+     * string $contributor
+     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    public function postsByContributor(Request $request, $contributor)
+    {
+        // Data artikel
+        $blogs = Blog::join('users','blog.author','=','users.id_user')->where('kontributor_slug','=',$contributor)->orderBy('blog_at','desc')->paginate(9);
+
+        // Data kontributor
+        $kontributor = (count($blogs)>0) ? $blogs[0]->kontributor : $contributor;
+
+        // View
+        return view('artikel/guest/posts-by-contributor', [
+            'kontributor' => $kontributor,
+            'blogs' => $blogs,
+        ]);
     }
 }
