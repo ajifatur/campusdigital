@@ -225,10 +225,10 @@
 <!-- Feature Section -->
 <section class="mitra-section spad bg-light">
   <div class="container">
-    <div class="row" data-aos="fade-down" data-aos-duration="1500">
+    <div class="row">
       <div class="col-12">
         <div class="h-100 d-flex text-center" style="justify-content: center; align-items: center; width: 100%;">
-          <span>
+          <span data-aos="fade-down" data-aos-duration="1500">
             <h2 class="mb-3">Mitra Kami</h2>
             <span>Kami bekerjasama dengan banyak mitra, ayo gabung segera!</span>
           </span>
@@ -237,7 +237,7 @@
       <div class="col-12">
         <div class="feature-item">
           <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" data-aos="fade-down" data-aos-duration="1500">
               <div class="owl-carousel owl-theme" id="mitra">
         			  @foreach($mitra as $data)
         				<div class="card border-0 shadow mx-3">

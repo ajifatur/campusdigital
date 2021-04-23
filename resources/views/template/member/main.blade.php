@@ -34,6 +34,7 @@
 </head>
 
 <body>
+    @include('template/admin/_css')
     @include('template/member/_preloader')
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
