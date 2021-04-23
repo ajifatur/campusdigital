@@ -43,7 +43,7 @@
                                     </div>
                                     @endforeach
                                     <div class="col-6 text-center">
-                                        <a href="/admin/transaksi/withdrawal" class="dropdown-item">
+                                        <a href="/member/file-manager/e-course" class="dropdown-item">
                                             <span class="btn btn-danger btn-circle mb-2"><i class="ti-bar-chart"></i>
                                                 @if($global_e_course_total > 0)
                                                     <span class="badge badge-pill badge-danger" style="position: absolute; top: 0">{{ $global_e_course_total }}</span>
@@ -53,7 +53,7 @@
                                         </a>
                                     </div>
                                     <div class="col-6 text-center">
-                                        <a href="/admin/transaksi/pelatihan" class="dropdown-item">
+                                        <a href="/artikel" class="dropdown-item" target="_blank">
                                             <span class="btn btn-warning btn-circle mb-2"><i class="ti-book"></i>
                                                 @if($global_artikel_total > 0)
                                                     <span class="badge badge-pill badge-danger" style="position: absolute; top: 0">{{ $global_artikel_total }}</span>
@@ -89,14 +89,14 @@
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <a class="dropdown-item text-center py-4" href="/admin/profil">
+                                        <a class="dropdown-item text-center py-4" href="/member/profil">
                                             <span class="btn btn-warning btn-circle mb-2"><i class="ti-user"></i></span>
                                             <p class="m-0">Profil</p>
                                         </a>
                                     </div>
                                     <div class="col-6">
                                         @if(Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor())
-                                        <a class="dropdown-item text-center py-4" href="/admin/e-signature">
+                                        <a class="dropdown-item text-center py-4" href="/member/e-signature">
                                             <span class="btn btn-warning btn-circle mb-2"><i class="ti-pencil"></i></span>
                                             <p class="m-0">E-Signature</p>
                                         </a>
