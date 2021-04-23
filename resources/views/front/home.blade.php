@@ -226,16 +226,15 @@
 <section class="mitra-section spad bg-light">
   <div class="container">
     <div class="row" data-aos="fade-down" data-aos-duration="1500">
-      <div class="col-12 col-lg-3">
-        <div class="h-100 d-flex text-center text-lg-left" style="justify-content: center; align-items: center; width: 100%;">
+      <div class="col-12">
+        <div class="h-100 d-flex text-center" style="justify-content: center; align-items: center; width: 100%;">
           <span>
             <h2 class="mb-3">Mitra Kami</h2>
             <span>Kami bekerjasama dengan banyak mitra, ayo gabung segera!</span>
-            <!-- <a class="btn btn-register-2 rounded-2 mt-3 d-block d-lg-flex mx-auto mx-lg-0" href="/register{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}" style="width: fit-content">Daftar</a> -->
           </span>
         </div>
       </div>
-      <div class="col-12 col-lg-9">
+      <div class="col-12">
         <div class="feature-item">
           <div class="row">
             <div class="col-lg-12">
@@ -375,12 +374,18 @@
               nav:false,
               loop:true,
           },
-          992:{
+          1024:{
+              items:4,
+              nav:false,
+              loop:false,
+              loop:true,
+          },
+          1440:{
               items:5,
               nav:false,
               loop:false,
               loop:true,
-          }
+          },
       }
     });
 
@@ -403,7 +408,7 @@
               items:3,
           },
           992:{
-              items:3,
+              items:5,
           }
       }
     });
