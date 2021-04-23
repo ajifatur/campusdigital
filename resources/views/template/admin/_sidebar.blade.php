@@ -107,7 +107,7 @@
                         </li>
                         <li class="sidebar-item {{ strpos(Request::url(), '/admin/absensi') ? 'selected' : '' }}"> <a class="sidebar-link waves-effect waves-dark sidebar-link {{ strpos(Request::url(), '/admin/absensi') ? 'active' : '' }}" href="/admin/absensi" aria-expanded="false"><i class="mdi mdi-pencil"></i><span class="hide-menu">Absensi Online</span></a></li>
                         @endif
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('form-logout').submit();" aria-expanded="false"><i class="mdi mdi-power"></i><span class="hide-menu">Logout</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('form-logout').submit();" aria-expanded="false"><i class="mdi mdi-power"></i><span class="hide-menu">Keluar</span></a></li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

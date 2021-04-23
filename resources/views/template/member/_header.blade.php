@@ -32,7 +32,7 @@
                                 <div class="row">
                                     @foreach($global_array_file as $file)
                                     <div class="col-6 text-center">
-                                        <a href="/member/materi/{{ generate_permalink($file['kategori']) }}" class="dropdown-item">
+                                        <a href="/member/file-manager/{{ generate_permalink($file['kategori']) }}" class="dropdown-item">
                                             <span class="btn btn-success btn-circle mb-2"><i class="ti-pie-chart"></i>
                                                 @if($file['total'] > 0)
                                                 <span class="badge badge-pill badge-danger" style="position: absolute; top: 0">{{ $global_komisi_total }}</span>
@@ -107,7 +107,7 @@
                                             <span class="btn btn-danger btn-circle mb-2"><i class="ti-power-off"></i></span>
                                             <p class="m-0">Keluar</p>
                                         </a>
-                                        <form id="form-logout" method="post" action="/admin/logout">
+                                        <form id="form-logout" method="post" action="/member/logout">
                                             {{ csrf_field() }}
                                         </form>
                                     </div>
