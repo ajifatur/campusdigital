@@ -77,7 +77,7 @@
                                 <img src="{{ Auth::user()->foto != '' ? asset('assets/images/users/'.Auth::user()->foto) : asset('assets/images/default/user.jpg') }}" alt="user" class="rounded-1 flex-shrink-0 mr-3" width="40">
                                 <div class="flex-grow-1">
                                     <p class="m-0">Hai, <strong>{{ Auth::user()->nama_user }}</strong></p>
-                                    <p class="m-0">{{ Auth::user()->role }}</p>
+                                    <p class="m-0">{{ get_role_name(Auth::user()->role) }}</p>
                                 </div>
                             </div>
                             <div class="card-body p-0">

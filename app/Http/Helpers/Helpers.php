@@ -53,7 +53,7 @@ if(!function_exists('role_member')){
     }
 }
 
-// Get role hehe
+// Get role nama nama
 if(!function_exists('get_role_name')){
     function get_role_name($id){
         $role = DB::table('role')->where('id_role','=',$id)->first();
