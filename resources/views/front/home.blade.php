@@ -240,7 +240,7 @@
             <div class="col-lg-12" data-aos="fade-down" data-aos-duration="1500">
               <div class="owl-carousel owl-theme" id="mitra">
         			  @foreach($mitra as $data)
-        				<div class="card border-0 shadow mx-3">
+        				<div class="card border-0 mx-3">
                   <div class="card-body">
           				  <img src="{{ asset('assets/images/mitra/'.$data->logo_mitra) }}">
                   </div>
