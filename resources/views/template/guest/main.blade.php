@@ -78,7 +78,11 @@
 		.owl-carousel .owl-item img{margin: auto; width: 80%}
 		.sticky-sidebar{position: sticky; top: 6em; height: fit-content}
 		.package .list-group-item{background: unset; border: unset;}
-
+/*----------------------------------------------------------*/
+.custom-shape-divider-bottom-1619236286 {bottom: 0;  left: 0;  width: 100%;  overflow: hidden;  line-height: 0;  transform: rotate(180deg);}
+.custom-shape-divider-bottom-1619236286 svg {position: relative; display: block; width: calc(100% + 1.3px); height: 100px;}
+.custom-shape-divider-bottom-1619236286 .shape-fill {fill: var(--light)}
+/*--------------------------------------------------------*/
 .custom-shape-divider-top-1615970510 {
     position: absolute;
     left: 0;

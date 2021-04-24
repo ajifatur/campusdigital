@@ -223,33 +223,31 @@
 <!-- Info Section end -->
 
 <!-- Feature Section -->
-<section class="mitra-section spad bg-light">
-  <div class="container">
+<div class="custom-shape-divider-bottom-1619236286">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z" class="shape-fill"></path>
+    </svg>
+</div>
+<section class="mitra-section spad bg-light" style="padding-top: 0">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-12">
         <div class="h-100 d-flex text-center" style="justify-content: center; align-items: center; width: 100%;">
           <span data-aos="fade-down" data-aos-duration="1500">
             <h2 class="mb-3">Mitra Kami</h2>
-            <span>Kami bekerjasama dengan banyak mitra, ayo gabung segera!</span>
+            <span>Campus Digital telah dipercaya sebagai lembaga pelatihan digital marketing<br>dengan melahirkan SDM yang memiliki kompetensi.</span>
           </span>
         </div>
       </div>
       <div class="col-12">
         <div class="feature-item">
-          <div class="row">
-            <div class="col-lg-12" data-aos="fade-down" data-aos-duration="1500">
-              <div class="owl-carousel owl-theme" id="mitra">
-        			  @foreach($mitra as $data)
-        				<div class="card border-0 bg-transparent mx-3">
-                  <div class="card-body">
-          				  <img src="{{ asset('assets/images/mitra/'.$data->logo_mitra) }}">
-                  </div>
-                  <div class="card-footer mx-3 bg-transparent text-center">
-                    <span class="m-0">{{ $data->nama_mitra }}</span>
-                  </div>
-        				</div>
-        			  @endforeach
-              </div>
+          <div data-aos="fade-down" data-aos-duration="1500">
+            <div class="owl-carousel owl-theme" id="mitra">
+      			  @foreach($mitra as $data)
+      				<div data-toggle="tooltip" data-placement="bottom" title="{{ $data->nama_mitra }}">
+        				<img src="{{ asset('assets/images/mitra/'.$data->logo_mitra) }}">
+      				</div>
+      			  @endforeach
             </div>
           </div>
         </div>
@@ -399,16 +397,16 @@
       responsiveClass:true,
       responsive:{
           0:{
-              items:1,
-          },
-          576:{
-              items:2,
-          },
-          768:{
               items:3,
           },
-          992:{
+          576:{
+              items:4,
+          },
+          768:{
               items:5,
+          },
+          992:{
+              items:10,
           }
       }
     });

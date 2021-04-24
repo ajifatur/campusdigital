@@ -412,7 +412,7 @@ class BlogController extends Controller
         $tag = Tag::limit(10)->get();
 
         // Artikel terbaru
-        $recents = Blog::join('users','blog.author','=','users.id_user')->orderBy('blog_at','desc')->limit(3)->get();
+        $recents = Blog::join('users','blog.author','=','users.id_user')->orderBy('blog_at','desc')->limit(6)->get();
 
         // View
         return view('artikel/guest/post', [

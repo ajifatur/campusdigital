@@ -21,34 +21,59 @@
 <section class="info-section spad">
   <div class="container">
     <div class="row">
-      <div class="col-lg-8"> 
-        <div class="info-text">
-          <h3 class="mb-3">{{ $blog->blog_title }}</h3>
-          <div class="">
-            <div class="col-12 p-1 text-secondary small" style="background-color: #fdd100;">
-              <div class="row">
-                <div class="col-md">
-                  <span title="{{ date('Y-m-d H:i:s', strtotime($blog->blog_at)) }}"><i class="fa fa-calendar mr-2"></i> {{ time_elapsed_string($blog->blog_at) }}</span>
-                </div>
-                <div class="col-md">
-                  <i class="fa fa-user mr-2"></i> <a href="{{ $blog->kontributor != '' ? '/kontributor/'.$blog->kontributor_slug : '/author/'.$blog->username }}{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">{{ $blog->kontributor != '' ? $blog->kontributor : $blog->nama_user }}</a>
-                </div>
-              </div>
-            </div>
+      <div class="col-lg-2">
+        <div class="sticky-top border-right" style="top: 8em">
+          <div class="bg-light rounded-circle mb-2 d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 70px"><i class="fa fa-user" style="font-size: 1.7rem"></i></div>
+          <div class="text-center">
+            <p class="text-body font-weight-bold m-0">{{ $blog->kontributor != '' ? $blog->kontributor : $blog->nama_user }}</p>
+            <p class="m-0"><small><i class="fa fa-bookmark"></i> {{ $blog->kontributor != '' ? 'Kontributor' : get_role_name($blog->role) }}</small></p>
+            <p class="m-0"><small> {{$blog->kategori}}</small></p>
+            <p class="m-0"><small><i class="fa fa-clock-o"></i> {{ time_elapsed_string($blog->blog_at) }}</small></p>
           </div>
-    			<div class="row mt-3">
-    				<div class="col-12">
-    					<img src="{{ $blog->blog_gambar != '' ? asset('assets/images/blog/'.$blog->blog_gambar) : asset('assets/images/default/artikel.jpg') }}" class="img-fluid">
-    				</div>
-    			</div>
+          <hr>
+          @foreach($blog_tags as $tag)
+          <span class="badge badge-primary">{{ $tag->tag }}</span>
+          @endforeach
+        </div>
+      </div>
+      <div class="col-lg-7"> 
+        <article>
+          <h2 class="mb-3">{{ $blog->blog_title }}</h2>
+    			<img src="{{ $blog->blog_gambar != '' ? asset('assets/images/blog/'.$blog->blog_gambar) : asset('assets/images/default/artikel.jpg') }}" class="img-fluid rounded">
           <div class="ql-snow mt-2"><div class="ql-editor">{!! html_entity_decode($blog->konten) !!}</div></div>
-    		  <div class="row mt-1">
-    			  <div class="col-12">
-    				  @foreach($blog_tags as $tag)
-    				  <span class="badge badge-primary">{{ $tag->tag }}</span>
-    				  @endforeach
-    			  </div>
-    			</div>
+        </article>
+      </div>
+      <div class="col-lg-3">
+        <div class="kategori mb-3">
+          <div class="heading">
+            <h5 class="m-0">Kategori</h5>
+            <hr>
+          </div>
+          <div class="card border-0">
+            <div class="card-body">
+              @foreach($kategori as $data)
+              <ul class="list-unstyled">
+                <li class="mb-2">{{$data->kategori}}</li>
+              </ul>
+              @endforeach
+            </div>  
+          </div>
+        </div>
+        <div class="last-post">
+          <div class="heading">
+            <h5 class="m-0">Artikel Lainya</h5>
+            <hr>
+          </div>
+          <div class="card border-0">
+            <div class="card-body">
+              @foreach($recents as $data)
+              <a href="/artikel/{{ $data->blog_permalink }}{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">
+                <img src="{{ $data->blog_gambar != '' ? asset('assets/images/blog/'.$data->blog_gambar) : asset('assets/images/default/artikel.jpg') }}" class="img-fluid rounded">   
+                <p>{{$data->blog_title}}</p>
+              </a>
+              @endforeach
+            </div>  
+          </div>
         </div>
       </div>
     </div>
@@ -62,8 +87,8 @@
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <style type="text/css">
-  .info-text {padding-top: 0;}
-  .info-text p {margin-bottom: 1rem!important;}
+  article {padding-top: 0;}
+  article p {margin-bottom: 1rem!important;}
 
   /* Quill */
   .ql-editor h2 {margin-bottom: 1rem!important; font-weight: 600!important;}
