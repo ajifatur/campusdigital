@@ -47,6 +47,9 @@
 				<li class="nav-item mb-2 mb-lg-0 {{ strpos(Request::url(), '/tentang-kami') ? 'active' : '' }}">
 					<a class="nav-link" href="/tentang-kami{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Tentang Kami</a>
 				</li>
+				<li class="nav-item {{ strpos(Request::url(), '/cabang') ? 'active' : '' }}">
+					<a class="nav-link" href="/cabang{{ Session::get('ref') != null ? '?ref='.Session::get('ref') : '' }}">Cabang</a>
+				</li>
 
 		        @if(Auth::guest())
 				<li class="nav-item">

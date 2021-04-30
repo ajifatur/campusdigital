@@ -454,6 +454,43 @@ class PelatihanController extends Controller
         // Redirect
         return redirect('/admin/pelatihan')->with(['message' => 'Berhasil menghapus data.']);
     }
+
+    /**
+     * Menduplikat pelatihan
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function duplicate(Request $request)
+    {
+    	// Mengambil data
+        $getpelatihan = Pelatihan::find($request->id);
+
+        if($getpelatihan){
+            // Menduplikat data
+            $pelatihan = new Pelatihan;
+            $pelatihan->nama_pelatihan = $getpelatihan->nama_pelatihan;
+            $pelatihan->kategori_pelatihan = $getpelatihan->kategori_pelatihan;
+            $pelatihan->tempat_pelatihan = $getpelatihan->tempat_pelatihan;
+            $pelatihan->tanggal_pelatihan_from = $getpelatihan->tanggal_pelatihan_from;
+            $pelatihan->tanggal_pelatihan_to = $getpelatihan->tanggal_pelatihan_to;
+            $pelatihan->tanggal_sertifikat_from = $getpelatihan->tanggal_sertifikat_from;
+            $pelatihan->tanggal_sertifikat_to = $getpelatihan->tanggal_sertifikat_to;
+            $pelatihan->thumbnail_pelatihan = $getpelatihan->thumbnail_pelatihan;
+            $pelatihan->nomor_pelatihan = $getpelatihan->nomor_pelatihan;
+            $pelatihan->deskripsi_pelatihan = $getpelatihan->deskripsi_pelatihan;
+            $pelatihan->trainer = $getpelatihan->trainer;
+            $pelatihan->kode_trainer = $getpelatihan->kode_trainer;
+            $pelatihan->fee_member = $getpelatihan->fee_member;
+            $pelatihan->fee_non_member = $getpelatihan->fee_non_member;
+            $pelatihan->materi_pelatihan = $getpelatihan->materi_pelatihan;
+            $pelatihan->total_jam_pelatihan = $getpelatihan->total_jam_pelatihan;
+            $pelatihan->save();
+        }
+
+        // Redirect
+        return redirect('/admin/pelatihan')->with(['message' => 'Berhasil menduplikat data.']);
+    }
 	
     /**
      * Menampilkan data transaksi pelatihan
