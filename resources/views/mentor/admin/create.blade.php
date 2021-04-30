@@ -10,11 +10,11 @@
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
 	@include('template/admin/_breadcrumb', ['breadcrumb' => [
-		'title' => 'Tambah Mitra',
+		'title' => 'Tambah Mentor',
 		'items' => [
 			['text' => 'Konten Web', 'url' => '/admin/konten-web'],
-			['text' => 'Mitra', 'url' => '/admin/konten-web/mitra'],
-			['text' => 'Tambah Mitra', 'url' => '#'],
+			['text' => 'Mentor', 'url' => '/admin/konten-web/mentor'],
+			['text' => 'Tambah Mentor', 'url' => '#'],
 		]
 	]])
     <!-- ============================================================== -->
@@ -38,14 +38,14 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>Nama Mentor <span class="text-danger">*</span></label>
-                                    <input type="text" name="nama_mentor" class="form-control {{ $errors->has('nama_mentor') ? 'is-invalid' : '' }}" value="{{ old('nama_mentor') }}" placeholder="Masukkan Nama Klien">
+                                    <input type="text" name="nama_mentor" class="form-control {{ $errors->has('nama_mentor') ? 'is-invalid' : '' }}" value="{{ old('nama_mentor') }}" placeholder="Masukkan Nama Mentor">
                                     @if($errors->has('nama_mentor'))
                                     <small class="text-danger">{{ ucfirst($errors->first('nama_mentor')) }}</small>
                                     @endif
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>Bidang Mentor <span class="text-danger">*</span></label>
-                                    <input type="text" name="bidang_mentor" class="form-control {{ $errors->has('bidang_mentor') ? 'is-invalid' : '' }}" value="{{ old('bidang_mentor') }}" placeholder="Masukkan Profesi Klien">
+                                    <input type="text" name="bidang_mentor" class="form-control {{ $errors->has('bidang_mentor') ? 'is-invalid' : '' }}" value="{{ old('bidang_mentor') }}" placeholder="Masukkan Bidang Mentor">
                                     @if($errors->has('bidang_mentor'))
                                     <small class="text-danger">{{ ucfirst($errors->first('bidang_mentor')) }}</small>
                                     @endif

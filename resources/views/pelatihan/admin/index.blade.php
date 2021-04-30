@@ -71,6 +71,7 @@
                                         <th width="100">Peserta</th>
                                         <th width="120">Waktu Awal</th>
                                         <th width="120">Waktu Akhir</th>
+                                        <th width="40">Duplikat</th>
                                         <th width="40">Edit</th>
                                         <th width="40">Hapus</th>
                                     </tr>
@@ -89,6 +90,7 @@
 										<td><a href="/admin/pelatihan/peserta/{{ $data->id_pelatihan }}" title="Lihat Daftar Peserta">{{ number_format($data->jumlah_peserta,0,'.','.') }} orang</a>
                                         <td>{{ generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['from'] }}</td>
 										<td>{{ generate_date_range('join', $data->tanggal_pelatihan_from.' - '.$data->tanggal_pelatihan_to)['to'] }}</td>
+                                        <td><a href="#" class="btn btn-info btn-sm btn-block btn-duplicate" data-id="{{ $data->id_pelatihan }}" title="Duplikat"><i class="fa fa-copy"></i></a></td>
                                         <td><a href="/admin/pelatihan/edit/{{ $data->id_pelatihan }}" class="btn btn-warning btn-sm btn-block" title="Edit"><i class="fa fa-edit"></i></a></td>
                                         <td><a href="#" class="btn btn-danger btn-sm btn-block btn-delete" data-id="{{ $data->id_pelatihan }}" title="Hapus"><i class="fa fa-trash"></i></a></td>
                                     </tr>
@@ -96,6 +98,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <form id="form-duplicate" class="d-none" method="post" action="/admin/pelatihan/duplicate">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="id">
+                            </form>
                             <form id="form" class="d-none" method="post" action="/admin/pelatihan/delete">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id" id="id">
@@ -132,14 +138,14 @@
 	$.fn.dataTable.moment("DD/MM/YYYY HH:mm");
     $('#table').DataTable();
 
-    // Button Delete
-    $(document).on("click", ".btn-delete", function(e){
+    // Button Duplicate
+    $(document).on("click", ".btn-duplicate", function(e){
         e.preventDefault();
         var id = $(this).data("id");
-        var ask = confirm("Anda yakin ingin menghapus data ini?");
+        var ask = confirm("Anda yakin ingin menduplikat data ini?");
         if(ask){
-            $("#id").val(id);
-            $("#form").submit();
+            $("#form-duplicate input[name=id]").val(id);
+            $("#form-duplicate").submit();
         }
     });
 </script>

@@ -22,6 +22,7 @@ Route::group(['middleware' => ['guest']], function(){
 	Route::get('/', 'HomeController@home');
 	Route::get('/beasiswa', 'HomeController@beasiswa');
 	Route::get('/afiliasi', 'HomeController@afiliasi');
+	Route::get('/cabang', 'HomeController@cabang');
 	Route::get('/tentang-kami', 'HomeController@tentangKami');
 	Route::get('/verify', 'HomeController@verify');
 
@@ -292,6 +293,14 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::post('/admin/konten-web/mitra/update', 'MitraController@update');
 	Route::post('/admin/konten-web/mitra/delete', 'MitraController@delete');
 
+	// Cabang
+	Route::get('/admin/konten-web/cabang', 'CabangController@index');
+	Route::get('/admin/konten-web/cabang/create', 'CabangController@create');
+	Route::post('/admin/konten-web/cabang/store', 'CabangController@store');
+	Route::get('/admin/konten-web/cabang/edit/{id}', 'CabangController@edit');
+	Route::post('/admin/konten-web/cabang/update', 'CabangController@update');
+	Route::post('/admin/konten-web/cabang/delete', 'CabangController@delete');
+
 	// File Manager
 	Route::get('/admin/file-manager/{kategori}', 'FileController@index');
 	Route::get('/admin/file-manager/{kategori}/create', 'FileController@create');
@@ -343,6 +352,7 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/pelatihan/edit/{id}', 'PelatihanController@edit');
 	Route::post('/admin/pelatihan/update', 'PelatihanController@update');
 	Route::post('/admin/pelatihan/delete', 'PelatihanController@delete');
+	Route::post('/admin/pelatihan/duplicate', 'PelatihanController@duplicate');
 	
 	// E-Sertifikat
 	Route::get('/admin/e-sertifikat/trainer', 'SertifikatController@indexTrainer');

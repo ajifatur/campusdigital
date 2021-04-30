@@ -137,7 +137,7 @@
 													<td><input type="text" name="kode_unit[]" class="form-control kode-unit" data-id="{{ ($key+1) }}" value="{{ $materi['kode'] }}" placeholder="Kode Unit"></td>
 													<td><input type="text" name="judul_unit[]" class="form-control judul-unit" data-id="{{ ($key+1) }}" value="{{ $materi['judul'] }}" placeholder="Judul Unit"></td>
 													<td width="150"><input type="text" name="durasi[]" class="form-control number-only durasi" value="{{ $materi['durasi'] }}" data-id="{{ ($key+1) }}" placeholder="Durasi (Jam)"></td>
-													<td width="50"><button class="btn btn-danger btn-block btn-delete {{ count($pelatihan->materi_pelatihan) <= 1 ? 'd-none' : '' }}" data-id="{{ ($key+1) }}" title="Hapus"><i class="fa fa-trash"></i></button></td>
+													<td width="50"><button class="btn btn-danger btn-block btn-delete-materi {{ count($pelatihan->materi_pelatihan) <= 1 ? 'd-none' : '' }}" data-id="{{ ($key+1) }}" title="Hapus"><i class="fa fa-trash"></i></button></td>
 												</tr>
 												@endforeach
 											</tbody>
@@ -285,28 +285,28 @@
 		html += '<td><input type="text" name="kode_unit[]" class="form-control kode-unit" data-id="'+(count+1)+'" placeholder="Kode Unit"></td>';
 		html += '<td><input type="text" name="judul_unit[]" class="form-control judul-unit" data-id="'+(count+1)+'" placeholder="Judul Unit"></td>';
 		html += '<td width="150"><input type="text" name="durasi[]" class="form-control number-only durasi" data-id="'+(count+1)+'" placeholder="Durasi (Jam)"></td>';
-		html += '<td width="50"><button class="btn btn-danger btn-block btn-delete" data-id="'+(count+1)+'" title="Hapus"><i class="fa fa-trash"></i></button></td>';
+		html += '<td width="50"><button class="btn btn-danger btn-block btn-delete-materi" data-id="'+(count+1)+'" title="Hapus"><i class="fa fa-trash"></i></button></td>';
 		html += '</tr>';
 		$("#table-materi tbody").append(html);
 		var rows = $("#table-materi tbody tr");
 		rows.each(function(key,elem){
-			$(elem).find(".btn-delete").removeClass("d-none")
+			$(elem).find(".btn-delete-materi").removeClass("d-none")
 		});
 	});
 	
 	// Button Hapus Materi
-	$(document).on("click", ".btn-delete", function(e){
+	$(document).on("click", ".btn-delete-materi", function(e){
 		e.preventDefault();
 		var id = $(this).data("id");
 		$("#table-materi tbody tr[data-id="+id+"]").remove();
 		var rows = $("#table-materi tbody tr");
 		rows.each(function(key,elem){
-			rows.length <= 1 ? $(elem).find(".btn-delete").addClass("d-none") : $(elem).find(".btn-delete").removeClass("d-none");		
+			rows.length <= 1 ? $(elem).find(".btn-delete-materi").addClass("d-none") : $(elem).find(".btn-delete-materi").removeClass("d-none");		
 			$(elem).attr("data-id", (key+1));
 			$(elem).find(".kode-unit").attr("data-id", (key+1));
 			$(elem).find(".judul-unit").attr("data-id", (key+1));
 			$(elem).find(".durasi").attr("data-id", (key+1));
-			$(elem).find(".btn-delete").attr("data-id", (key+1));
+			$(elem).find(".btn-delete-materi").attr("data-id", (key+1));
 		});
 	});
 	

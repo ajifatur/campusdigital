@@ -10,11 +10,11 @@
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
 	@include('template/admin/_breadcrumb', ['breadcrumb' => [
-		'title' => 'Edit Mitra',
+		'title' => 'Edit Mentor',
 		'items' => [
 			['text' => 'Konten Web', 'url' => '/admin/konten-web'],
-			['text' => 'Mitra', 'url' => '/admin/konten-web/mitra'],
-			['text' => 'Edit Mitra', 'url' => '#'],
+			['text' => 'Mentor', 'url' => '/admin/konten-web/mentor'],
+			['text' => 'Edit Mentor', 'url' => '#'],
 		]
 	]])
     <!-- ============================================================== -->
