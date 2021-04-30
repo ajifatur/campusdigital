@@ -135,7 +135,7 @@ class PelatihanController extends Controller
             $image_name = $request->thumbnail != '' ? upload_file_content($request->thumbnail, "assets/images/pelatihan/") : '';
 
 			// Generate nomor pelatihan
-			$check = Pelatihan::where('kategori_pelatihan','=',$request->kategori)->whereYear('tanggal_pelatihan_from','=',date('Y', strtotime(generate_date_range('explode', $request->tanggal_pelatihan)['from'])))->latest('tanggal_pelatihan_from')->first();
+			$check = Pelatihan::where('kategori_pelatihan','=',$request->kategori)->whereYear('tanggal_pelatihan_from','=',date('Y', strtotime(generate_date_range('explode', $request->tanggal_pelatihan)['from'])))->latest('nomor_pelatihan')->first();
 			$nomor_pelatihan = generate_nomor_pelatihan($check, generate_kategori_pelatihan($request->kategori), date('Y', strtotime(generate_date_range('explode', $request->tanggal_pelatihan)['from'])));
 			
             // Upload gambar dari quill
@@ -453,6 +453,51 @@ class PelatihanController extends Controller
 
         // Redirect
         return redirect('/admin/pelatihan')->with(['message' => 'Berhasil menghapus data.']);
+    }
+
+    /**
+     * Menduplikat pelatihan
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function duplicate(Request $request)
+    {
+    	// Mengambil data
+        $getpelatihan = Pelatihan::find($request->id);
+
+        if($getpelatihan){
+			// Generate nomor pelatihan
+			$check = Pelatihan::where('kategori_pelatihan','=',$getpelatihan->kategori_pelatihan)->whereYear('tanggal_pelatihan_from','=',date('Y', strtotime($getpelatihan->tanggal_pelatihan_from)))->latest('nomor_pelatihan')->first();
+			$nomor_pelatihan = generate_nomor_pelatihan($check, generate_kategori_pelatihan($getpelatihan->kategori_pelatihan), date('Y', strtotime($getpelatihan->tanggal_pelatihan_from)));
+
+            // Menduplikat data
+            $pelatihan = new Pelatihan;
+            $pelatihan->nama_pelatihan = $getpelatihan->nama_pelatihan;
+            $pelatihan->kategori_pelatihan = $getpelatihan->kategori_pelatihan;
+            $pelatihan->tempat_pelatihan = $getpelatihan->tempat_pelatihan;
+            $pelatihan->tanggal_pelatihan_from = $getpelatihan->tanggal_pelatihan_from;
+            $pelatihan->tanggal_pelatihan_to = $getpelatihan->tanggal_pelatihan_to;
+            $pelatihan->tanggal_sertifikat_from = $getpelatihan->tanggal_sertifikat_from;
+            $pelatihan->tanggal_sertifikat_to = $getpelatihan->tanggal_sertifikat_to;
+            $pelatihan->thumbnail_pelatihan = $getpelatihan->thumbnail_pelatihan;
+            $pelatihan->nomor_pelatihan = $nomor_pelatihan;
+            $pelatihan->deskripsi_pelatihan = $getpelatihan->deskripsi_pelatihan;
+            $pelatihan->trainer = $getpelatihan->trainer;
+            $pelatihan->kode_trainer = str_replace('/', '.', $nomor_pelatihan).'.T';
+            $pelatihan->fee_member = $getpelatihan->fee_member;
+            $pelatihan->fee_non_member = $getpelatihan->fee_non_member;
+            $pelatihan->materi_pelatihan = $getpelatihan->materi_pelatihan;
+            $pelatihan->total_jam_pelatihan = $getpelatihan->total_jam_pelatihan;
+            $pelatihan->save();
+
+            // Redirect
+            return redirect('/admin/pelatihan')->with(['message' => 'Berhasil menduplikat data.']);
+        }
+        else{
+            // Redirect
+            return redirect('/admin/pelatihan')->with(['message' => 'Tidak berhasil menduplikat data.']);
+        }
     }
 	
     /**

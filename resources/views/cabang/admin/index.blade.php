@@ -10,11 +10,11 @@
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
 	@include('template/admin/_breadcrumb', ['breadcrumb' => [
-		'title' => 'Data Mentor',
+		'title' => 'Data Cabang',
 		'items' => [
 			['text' => 'Konten Web', 'url' => '/admin/konten-web'],
-			['text' => 'Mentor', 'url' => '/admin/konten-web/mentor'],
-			['text' => 'Data Mentor', 'url' => '#'],
+			['text' => 'Cabang', 'url' => '/admin/konten-web/cabang'],
+			['text' => 'Data Cabang', 'url' => '#'],
 		]
 	]])
     <!-- ============================================================== -->
@@ -34,7 +34,7 @@
                 <div class="card shadow">
                     <div class="card-title border-bottom d-sm-flex justify-content-between align-items-center">
                         <div>
-                            <a href="/admin/konten-web/mentor/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Data</a>
+                            <a href="/admin/konten-web/cabang/create" class="btn btn-sm btn-primary"><i class="fa fa-plus mr-2"></i> Tambah Data</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -51,30 +51,36 @@
                                 <thead>
                                     <tr>
                                         <th width="20"><input type="checkbox"></th>
-                                        <th>Mentor</th>
-                                        <th>Bidang</th>
-                                        <th width="100">Foto</th>
+                                        <th>Cabang</th>
+                                        <th width="80">WhatsApp</th>
+                                        <th width="80">Instagram</th>
+                                        <th width="80">Website</th>
                                         <th width="60">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($mentor as $data)
+                                    @foreach($cabang as $data)
                                     <tr>
                                         <td><input type="checkbox"></td>
-                                        <td>{{ $data->nama_mentor }}</td>
-                                        <td>{{ $data->bidang_mentor }}</td>
-										<td><a href="{{ asset('assets/images/mentor/'.$data->foto_mentor) }}" class="image-popup-vertical-fit"><img src="{{ asset('assets/images/mentor/'.$data->foto_mentor) }}" class="img-thumbnail" style="max-height: 100px;"></a></td>
+                                        <td>
+                                            {{ $data->nama_cabang }}
+                                            <br>
+                                            <small class="text-dark"><i class="fa fa-building mr-2"></i>{{ $data->alamat_cabang }}</small>
+                                        </td>
+                                        <td>{{ $data->whatsapp_cabang }}</td>
+                                        <td>{{ $data->instagram_cabang }}</td>
+                                        <td>{{ $data->website_cabang }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="/admin/konten-web/mentor/edit/{{ $data->id_mentor }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
-                                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="{{ $data->id_mentor }}" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                                <a href="/admin/konten-web/cabang/edit/{{ $data->id_cabang }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="{{ $data->id_cabang }}" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            <form id="form" class="d-none" method="post" action="/admin/konten-web/mentor/delete">
+                            <form id="form" class="d-none" method="post" action="/admin/konten-web/cabang/delete">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id" id="id">
                             </form>

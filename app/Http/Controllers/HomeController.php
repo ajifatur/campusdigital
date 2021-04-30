@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterMail;
+use App\Cabang;
 use App\Komisi;
 use App\Mentor;
 use App\Mitra;
@@ -109,6 +110,39 @@ class HomeController extends Controller
         // End get referral
 
         return view('front/afiliasi');
+    }
+	
+    /**
+     * Cabang Page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cabang(Request $request)
+    {
+        // Get referral
+        $referral = $request->query('ref');
+        if($referral == null){
+        	$request->session()->put('ref', get_referral_code()->username);
+        	return redirect('/cabang?ref='.get_referral_code()->username);
+        }
+        else{
+	        $user = User::where('username',$referral)->where('status','=',1)->first();
+	        if(!$user){
+	        	$request->session()->put('ref', get_referral_code()->username);
+	        	return redirect('/cabang?ref='.get_referral_code()->username);
+	        }
+	        else{
+	        	$request->session()->put('ref', $referral);
+	        }
+	    }
+        // End get referral
+
+        // Cabang
+        $cabang = Cabang::all();
+
+        return view('front/cabang', [
+            'cabang' => $cabang
+        ]);
     }
 	
     /**
