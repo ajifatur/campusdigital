@@ -95,14 +95,24 @@
 							</div>
 							<div class="form-group col-md-12">
 								<label>Password <span class="text-danger">*</span></label>
-								<input type="password" name="password" class="form-control form-control-sm {{ $errors->has('password') ? 'border-danger' : '' }}" placeholder="Masukkan Password">
+                                <div class="input-group">
+								  	<input type="password" name="password" class="form-control form-control-sm {{ $errors->has('password') ? 'border-danger' : '' }}" placeholder="Masukkan Password">
+                                    <div class="input-group-append">
+                                        <a href="#" class="input-group-text text-dark btn btn-toggle-password {{ $errors->has('password') ? 'bg-danger' : 'bg-theme-1' }}"><i class="fa fa-eye text-white"></i></a>
+                                    </div>
+                                </div>
 								@if($errors->has('password'))
 								<div class="small text-danger mt-1">{{ ucfirst($errors->first('password')) }}</div>
 								@endif
 							</div>
 							<div class="form-group col-md-12">
 								<label>Ulangi Password <span class="text-danger">*</span></label>
-								<input type="password" name="password_confirmation" class="form-control form-control-sm {{ $errors->has('password') ? 'border-danger' : '' }}" placeholder="Ulangi Password">
+                                <div class="input-group">
+							  		<input type="password" name="password_confirmation" class="form-control form-control-sm {{ $errors->has('password') ? 'border-danger' : '' }}" placeholder="Ulangi Password">
+                                    <div class="input-group-append">
+                                        <a href="#" class="input-group-text text-dark btn btn-toggle-password {{ $errors->has('password') ? 'bg-danger' : 'bg-theme-1' }}"><i class="fa fa-eye text-white"></i></a>
+                                    </div>
+                                </div>
 							</div>
 						  </div>
 						  <hr>
@@ -138,6 +148,21 @@
     $(document).on("click", "#btn-submit", function(e){
         $("#registration-form").submit();
     });
+
+	// Button Toggle Password
+	$(document).on("click", ".btn-toggle-password", function(e){
+		e.preventDefault();
+		if(!$(this).hasClass("show")){
+			$(this).parents(".form-group").find("input[type=password]").attr("type","text");
+			$(this).find(".fa").removeClass("fa-eye").addClass("fa-eye-slash");
+			$(this).addClass("show");
+		}
+		else{
+			$(this).parents(".form-group").find("input[type=text]").attr("type","password");
+			$(this).find(".fa").removeClass("fa-eye-slash").addClass("fa-eye");
+			$(this).removeClass("show");
+		}
+	});
 </script>
 
 @endsection
