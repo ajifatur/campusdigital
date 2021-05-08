@@ -192,15 +192,15 @@ class StatistikController extends Controller
     {
         if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
             // Data usia di bawah 20
-            $userUnder20 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','>=',(date('Y')-20))->count();
+            $userUnder20 = User::where('is_admin','=',0)->where('status','=',1)->whereYear('tanggal_lahir','>=',(date('Y')-20))->count();
             // Data usia di antara 21 - 37
-            $userBetween21_37 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<=',(date('Y')-21))->whereYear('tanggal_lahir','>=',(date('Y')-37))->count();
+            $userBetween21_37 = User::where('is_admin','=',0)->where('status','=',1)->whereYear('tanggal_lahir','<=',(date('Y')-21))->whereYear('tanggal_lahir','>=',(date('Y')-37))->count();
             // Data usia di antara 38 - 50
-            $userBetween38_50 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<=',(date('Y')-38))->whereYear('tanggal_lahir','>=',(date('Y')-50))->count();
+            $userBetween38_50 = User::where('is_admin','=',0)->where('status','=',1)->whereYear('tanggal_lahir','<=',(date('Y')-38))->whereYear('tanggal_lahir','>=',(date('Y')-50))->count();
             // Data usia di atas 50
-            $userAfter50 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<',(date('Y')-50))->count();
+            $userAfter50 = User::where('is_admin','=',0)->where('status','=',1)->whereYear('tanggal_lahir','<',(date('Y')-50))->count();
             // Data total
-            $userTotal = User::where('is_admin','=',0)->count();
+            $userTotal = User::where('is_admin','=',0)->where('status','=',1)->count();
             
             // Response
             return response()->json([
@@ -239,11 +239,11 @@ class StatistikController extends Controller
     {
         if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
             // Data gender laki-laki
-            $userL = User::where('is_admin','=',0)->where('jenis_kelamin','=','L')->count();
+            $userL = User::where('is_admin','=',0)->where('status','=',1)->where('jenis_kelamin','=','L')->count();
             // Data gender perempuan
-            $userP = User::where('is_admin','=',0)->where('jenis_kelamin','=','P')->count();
+            $userP = User::where('is_admin','=',0)->where('status','=',1)->where('jenis_kelamin','=','P')->count();
             // Data total
-            $userTotal = User::where('is_admin','=',0)->count();
+            $userTotal = User::where('is_admin','=',0)->where('status','=',1)->count();
             
             // Response
             return response()->json([
@@ -257,6 +257,146 @@ class StatistikController extends Controller
                     ],
                     'total' => $userTotal,
                     'label' => ['Laki-Laki', 'Perempuan']
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data kunjungan member
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataKunjunganMember(Request $request)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data total
+            $userTotal = User::where('is_admin','=',0)->where('status','=',1)->get();
+
+            $userLoginA = $userLoginB = $userLoginC = $userLoginD = 0;
+            if(count($userTotal)>0){
+                foreach($userTotal as $user){
+                    if(count_visits($user->id_user) == 0) $userLoginA++;
+                    elseif(count_visits($user->id_user) >= 1 && count_visits($user->id_user) <= 5) $userLoginB++;
+                    elseif(count_visits($user->id_user) >= 6 && count_visits($user->id_user) <= 10) $userLoginC++;
+                    elseif(count_visits($user->id_user) > 10) $userLoginD++;
+                }
+            }
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [$userLoginA, $userLoginB, $userLoginC, $userLoginD],
+                    'data_pcg' => [
+                        round(($userLoginA / count($userTotal)) * 100, 2),
+                        round(($userLoginB / count($userTotal)) * 100, 2),
+                        round(($userLoginC / count($userTotal)) * 100, 2),
+                        round(($userLoginD / count($userTotal)) * 100, 2),
+                    ],
+                    'total' => count($userTotal),
+                    'label' => ['Tidak Login', 'Login 1 - 5 kali', 'Login 6 - 10 kali', 'Login > 10 kali']
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data pelatihan member
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataPelatihanMember(Request $request)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data total
+            $userTotal = User::where('is_admin','=',0)->where('status','=',1)->get();
+
+            $userPelatihan0 = $userPelatihan1 = $userPelatihan2 = $userPelatihan3 = $userPelatihan4 = $userPelatihanMore = 0;
+            if(count($userTotal)>0){
+                foreach($userTotal as $user){
+                    if(count_pelatihan_member($user->id_user) == 0) $userPelatihan0++;
+                    elseif(count_pelatihan_member($user->id_user) == 1) $userPelatihan1++;
+                    elseif(count_pelatihan_member($user->id_user) == 2) $userPelatihan2++;
+                    elseif(count_pelatihan_member($user->id_user) == 3) $userPelatihan3++;
+                    elseif(count_pelatihan_member($user->id_user) == 4) $userPelatihan4++;
+                    elseif(count_pelatihan_member($user->id_user) > 4) $userPelatihanMore++;
+                }
+            }
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [$userPelatihan0, $userPelatihan1, $userPelatihan2, $userPelatihan3, $userPelatihan4, $userPelatihanMore],
+                    'data_pcg' => [
+                        round(($userPelatihan0 / count($userTotal)) * 100, 2),
+                        round(($userPelatihan1 / count($userTotal)) * 100, 2),
+                        round(($userPelatihan2 / count($userTotal)) * 100, 2),
+                        round(($userPelatihan3 / count($userTotal)) * 100, 2),
+                        round(($userPelatihan4 / count($userTotal)) * 100, 2),
+                        round(($userPelatihanMore / count($userTotal)) * 100, 2),
+                    ],
+                    'total' => count($userTotal),
+                    'label' => ['Tidak Pernah Ikut', 'Ikut 1 kali', 'Ikut 2 kali', 'Ikut 3 kali', 'Ikut 4 kali', 'Ikut > 4']
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data churn rate member
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataChurnRateMember(Request $request)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Total
+            $total = count_churn_rate(1) + count_churn_rate(2) + count_churn_rate(3);
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [count_churn_rate(1), count_churn_rate(2), count_churn_rate(3)],
+                    'data_pcg' => [
+                        round((count_churn_rate(1) / $total) * 100, 2),
+                        round((count_churn_rate(2) / $total) * 100, 2),
+                        round((count_churn_rate(3) / $total) * 100, 2),
+                    ],
+                    'total' => $total,
+                    'label' => ['Tidak Login 1 bulan terakhir', 'Tidak Login 2 bulan terakhir', 'Tidak Login 3 bulan terakhir']
                 ],
             ]);
         }
