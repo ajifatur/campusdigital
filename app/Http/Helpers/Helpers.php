@@ -504,6 +504,25 @@ if(!function_exists('count_visits')){
     }
 }
 
+// Menghitung jumlah pelatihan member
+if(!function_exists('count_pelatihan_member')){
+    function count_pelatihan_member($user){
+        $data = DB::table('pelatihan_member')->where('id_user','=',$user)->count();
+        return $data;
+    }
+}
+
+// Menghitung churn rate
+if(!function_exists('count_churn_rate')){
+    function count_churn_rate($month){
+        if($month == 1 || $month == 2)
+            $data = DB::table('users')->where('is_admin','=',0)->where('status','=',1)->whereDate('last_visit','<=',date('Y-m-d', strtotime('-'.$month.' month')))->whereDate('last_visit','>=',date('Y-m-d', strtotime('-'.($month + 1).' month')))->count();
+        elseif($month == 3)
+            $data = DB::table('users')->where('is_admin','=',0)->where('status','=',1)->whereDate('last_visit','<=',date('Y-m-d', strtotime('-'.$month.' month')))->count();
+        return $data;
+    }
+}
+
 // Menghitung jumlah user membaca file
 if(!function_exists('count_reads')){
     function count_reads($user){
