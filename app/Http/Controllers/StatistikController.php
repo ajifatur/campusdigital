@@ -14,6 +14,28 @@ use App\Visitor;
 class StatistikController extends Controller
 {
     /**
+     * Menampilkan data statistik
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if(Auth::user()->is_admin == 1){
+            if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){    			
+                // View
+                return view('statistik/admin/index', [
+                    //
+                ]);
+            }
+            else{
+                // View
+                return view('error/forbidden');
+            }
+        }
+    }
+
+    /**
      * Menampilkan data visitor
      *
      * @param  \Illuminate\Http\Request  $request

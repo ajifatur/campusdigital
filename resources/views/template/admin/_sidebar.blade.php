@@ -12,6 +12,9 @@
                         @if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer())
                         <li class="sidebar-item {{ strpos(Request::url(), '/admin/user') ? 'selected' : '' }}"> <a class="sidebar-link waves-effect waves-dark sidebar-link {{ strpos(Request::url(), '/admin/user') ? 'active' : '' }}" href="/admin/user" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">User</span></a></li>
                         @endif
+                        @if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor())
+                        <li class="sidebar-item {{ strpos(Request::url(), '/admin/statistik') ? 'selected' : '' }}"> <a class="sidebar-link waves-effect waves-dark sidebar-link {{ strpos(Request::url(), '/admin/statistik') ? 'active' : '' }}" href="/admin/statistik" aria-expanded="false"><i class="mdi mdi-chart-arc"></i><span class="hide-menu">Statistik</span></a></li>
+                        @endif
                         @if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer())
                         <li class="sidebar-item {{ strpos(Request::url(), '/admin/pengaturan') ? 'selected' : '' }}"> <a class="sidebar-link has-arrow waves-effect waves-dark {{ strpos(Request::url(), '/admin/pengaturan') ? 'active' : '' }}" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-settings"></i><span class="hide-menu">Pengaturan</span></a>
                             <ul aria-expanded="false" class="collapse first-level {{ strpos(Request::url(), '/admin/pengaturan') ? 'in' : '' }}">
