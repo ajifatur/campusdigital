@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Stevebauman\Location\Facades\Location;
 use App\Aktivitas;
 use App\FileReader;
 use App\User;
@@ -176,6 +177,96 @@ class StatistikController extends Controller
                 // View
                 return view('error/forbidden');
             }
+        }
+    }
+
+    /* Statistik API */
+
+    /**
+     * Data usia
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataUsia(Request $request)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data usia di bawah 20
+            $userUnder20 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','>=',(date('Y')-20))->count();
+            // Data usia di antara 21 - 37
+            $userBetween21_37 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<=',(date('Y')-21))->whereYear('tanggal_lahir','>=',(date('Y')-37))->count();
+            // Data usia di antara 38 - 50
+            $userBetween38_50 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<=',(date('Y')-38))->whereYear('tanggal_lahir','>=',(date('Y')-50))->count();
+            // Data usia di atas 50
+            $userAfter50 = User::where('is_admin','=',0)->whereYear('tanggal_lahir','<',(date('Y')-50))->count();
+            // Data total
+            $userTotal = User::where('is_admin','=',0)->count();
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [$userUnder20, $userBetween21_37, $userBetween38_50, $userAfter50],
+                    'data_pcg' => [
+                        round(($userUnder20 / $userTotal) * 100, 2),
+                        round(($userBetween21_37 / $userTotal) * 100, 2),
+                        round(($userBetween38_50 / $userTotal) * 100, 2),
+                        round(($userAfter50 / $userTotal) * 100, 2),
+                    ],
+                    'total' => $userTotal,
+                    'label' => ['< 20', '21 - 37', '38 - 50', '> 50']
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data gender
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataGender(Request $request)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data gender laki-laki
+            $userL = User::where('is_admin','=',0)->where('jenis_kelamin','=','L')->count();
+            // Data gender perempuan
+            $userP = User::where('is_admin','=',0)->where('jenis_kelamin','=','P')->count();
+            // Data total
+            $userTotal = User::where('is_admin','=',0)->count();
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [$userL, $userP],
+                    'data_pcg' => [
+                        round(($userL / $userTotal) * 100, 2),
+                        round(($userP / $userTotal) * 100, 2)
+                    ],
+                    'total' => $userTotal,
+                    'label' => ['Laki-Laki', 'Perempuan']
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
         }
     }
 }

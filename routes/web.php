@@ -370,6 +370,10 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/statistik/top-visitor', 'StatistikController@topVisitor');
 	Route::get('/admin/statistik/file-reader', 'StatistikController@fileReader');
 	Route::get('/admin/statistik/aktivitas/{id}', 'StatistikController@detailAktivitas');
+
+	// Statistik API
+	Route::get('/admin/api/statistik/usia', 'StatistikController@dataUsia');
+	Route::get('/admin/api/statistik/gender', 'StatistikController@dataGender');
 	
 	// File Tidak Terpakai
 	Route::get('/admin/file/unused', 'FileController@unused');
