@@ -391,7 +391,7 @@ class DynamoDbStore implements LockProvider, Store
      */
     public function forever($key, $value)
     {
-        return $this->put($key, $value, now()->addYears(5)->getTimestamp());
+        return $this->put($key, $value, Carbon::now()->addYears(5)->getTimestamp());
     }
 
     /**
@@ -524,5 +524,15 @@ class DynamoDbStore implements LockProvider, Store
     public function setPrefix($prefix)
     {
         $this->prefix = ! empty($prefix) ? $prefix.':' : '';
+    }
+
+    /**
+     * Get the DynamoDb Client instance.
+     *
+     * @return DynamoDbClient
+     */
+    public function getClient()
+    {
+        return $this->dynamo;
     }
 }

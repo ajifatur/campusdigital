@@ -12,6 +12,7 @@ use App\Mitra;
 use App\Setting;
 use App\Slider;
 use App\User;
+use Stevebauman\Location\Facades\Location;
 
 class HomeController extends Controller
 {		

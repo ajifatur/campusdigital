@@ -365,6 +365,7 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/absensi/export', 'AbsensiController@export');
 
 	// Statistik
+	Route::get('/admin/statistik', 'StatistikController@index');
 	Route::get('/admin/statistik/visitor', 'StatistikController@visitor');
 	Route::get('/admin/statistik/top-visitor', 'StatistikController@topVisitor');
 	Route::get('/admin/statistik/file-reader', 'StatistikController@fileReader');
