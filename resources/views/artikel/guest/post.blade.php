@@ -31,9 +31,11 @@
             <p class="m-0"><small><i class="fa fa-clock-o"></i> {{ time_elapsed_string($blog->blog_at) }}</small></p>
           </div>
           <hr>
-          @foreach($blog_tags as $tag)
-          <span class="badge badge-primary">{{ $tag->tag }}</span>
-          @endforeach
+          <div style="overflow: auto;">
+            @foreach($blog_tags as $tag)
+            <span class="badge badge-primary">{{ $tag->tag }}</span>
+            @endforeach
+          </div>
         </div>
       </div>
       <div class="col-lg-7"> 
