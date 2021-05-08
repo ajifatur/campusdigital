@@ -19,6 +19,29 @@
         </div>
     </div>
     <div class="container-fluid">
+        <div class="row align-items-end">
+            <div class="col-lg-3"><p class="font-weight-bold m-0">Urutkan</p></div>
+            <div class="col-lg-3">
+                <p class="m-0">Mulai</p>            
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                  </div>
+                  <input type="text" id="tanggal1" class="form-control form-control-sm" value="{{ isset($_GET['tanggal']) ? $_GET['tanggal'] : date('d/m/Y') }}" readonly>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <p class="m-0">Akhir</p>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                  </div>
+                  <input type="text" id="tanggal2" class="form-control form-control-sm" value="{{ isset($_GET['tanggal']) ? $_GET['tanggal'] : date('d/m/Y') }}" readonly>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right"><button class="btn btn-primary">Terapkan</button></div>
+        </div>
+        <hr>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card shadow">
@@ -94,6 +117,7 @@
 @endsection
 
 @section('js-extra')
+<script src="{{ asset('templates/matrix-admin/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script type="text/javascript">
 var canvasUsia = document.getElementById("cartUsia");
@@ -148,11 +172,20 @@ var pieChart = new Chart(cartChurn, {
   data: oilData
 });
 
-
+$("#tanggal1").datepicker({
+    format: 'dd/mm/yyyy',
+    todayHighlight: true,
+    autoclose: true
+});
+$("#tanggal2").datepicker({
+    format: 'dd/mm/yyyy',
+    todayHighlight: true,
+    autoclose: true
+});
 </script>
 
 @endsection
 
 @section('css-extra')
-
+<link href="{{ asset('templates/matrix-admin/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 @endsection
