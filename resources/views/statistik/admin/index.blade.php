@@ -19,28 +19,30 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row align-items-end">
-            <div class="col-lg-3"><p class="font-weight-bold m-0">Urutkan</p></div>
-            <div class="col-lg-3">
-                <p class="m-0">Mulai</p>            
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                      <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
-                  </div>
-                  <input type="text" id="tanggal1" class="form-control form-control-sm" value="{{ isset($_GET['tanggal']) ? $_GET['tanggal'] : date('d/m/Y') }}" readonly>
+        <form method="get" action="">
+            <div class="row align-items-end">
+                <div class="col-lg-3"><p class="font-weight-bold m-0">Urutkan</p></div>
+                <div class="col-lg-3">
+                    <p class="m-0">Mulai</p>            
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                    </div>
+                    <input type="text" name="tanggal1" id="tanggal1" class="form-control form-control-sm" value="{{ $tanggal1 }}" readonly>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                <p class="m-0">Akhir</p>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                      <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
-                  </div>
-                  <input type="text" id="tanggal2" class="form-control form-control-sm" value="{{ isset($_GET['tanggal']) ? $_GET['tanggal'] : date('d/m/Y') }}" readonly>
+                <div class="col-lg-3">
+                    <p class="m-0">Akhir</p>
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                    </div>
+                    <input type="text" name="tanggal2" id="tanggal2" class="form-control form-control-sm" value="{{ $tanggal2 }}" readonly>
+                    </div>
                 </div>
+                <div class="col-lg-3 text-right"><button class="btn btn-primary" type="submit">Terapkan</button></div>
             </div>
-            <div class="col-lg-3 text-right"><button class="btn btn-primary">Terapkan</button></div>
-        </div>
+        </form>
         <hr>
         <div class="row">
             <div class="col-lg-6">
@@ -50,7 +52,7 @@
                         <p class="m-0 text-muted">Statistik usia</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartUsia" width="600" height="400"></canvas>
+                        <canvas id="chartUsia" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -61,7 +63,7 @@
                         <p class="m-0 text-muted">Statistik Gender</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartGender" width="600" height="400"></canvas>
+                        <canvas id="chartGender" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -72,7 +74,7 @@
                         <p class="m-0 text-muted">Statistik Lokasi</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartLokasi" width="600" height="400"></canvas>
+                        <canvas id="chartLokasi" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -83,7 +85,7 @@
                         <p class="m-0 text-muted">Statistik Kunjungan</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartKunjungan" width="600" height="400"></canvas>
+                        <canvas id="chartKunjungan" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -94,7 +96,7 @@
                         <p class="m-0 text-muted">Statistik Pelatihan</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartPelatihan" width="600" height="400"></canvas>
+                        <canvas id="chartPelatihan" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -105,7 +107,7 @@
                         <p class="m-0 text-muted">Statistik Churn Rate</p>
                     </div>
                     <div class="card-body">
-                        <canvas id="cartChurn" width="600" height="400"></canvas>
+                        <canvas id="chartChurn" width="600" height="400"></canvas>
                     </div>
                 </div>
             </div>
@@ -120,57 +122,116 @@
 <script src="{{ asset('templates/matrix-admin/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script type="text/javascript">
-var canvasUsia = document.getElementById("cartUsia");
-var canvasGender = document.getElementById("cartGender");
-var canvasLokasi = document.getElementById("cartLokasi");
-var canvasKunjungan = document.getElementById("cartKunjungan");
-var canvasPelatihan = document.getElementById("cartPelatihan");
-var canvasChurn = document.getElementById("cartChurn");
-var oilData = {
-    labels: [
-        "Saudi Arabia",
-        "Russia",
-        "Iraq",
-        "United Arab Emirates",
-        "Canada"
-    ],
-    datasets: [
-        {
-            data: [133.3, 86.2, 52.2, 51.2, 50.2],
-            backgroundColor: [
-                "#FF6384",
-                "#63FF84",
-                "#84FF63",
-                "#8463FF",
-                "#6384FF"
-            ]
-        }]
-};
 
-var pieChart = new Chart(cartUsia, {
-  type: 'pie',
-  data: oilData
+// AJAX global events
+$(document).bind("ajaxStart", function(){
+    $(".page-wrapper .card-body").prepend("<p>Loading...</p>");
+}).bind("ajaxComplete", function(){
+    $(".page-wrapper .card-body p").hide();
 });
-var pieChart = new Chart(cartGender, {
-  type: 'pie',
-  data: oilData
+
+$(function(){
+    // Tanggal
+    var tanggal1 = "{{ $tanggal1 }}";
+    var tanggal2 = "{{ $tanggal2 }}";
+
+    // Chart usia
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/usia",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartUsia"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
+
+    // Chart gender
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/gender",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartGender"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
+
+    // Chart lokasi
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/lokasi",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartLokasi"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
+
+    // Chart kunjungan member
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/kunjungan-member",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartKunjungan"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
+
+    // Chart pelatihan member
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/pelatihan-member",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartPelatihan"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
+
+    // Chart churn rate member
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/churn-rate-member",
+        data: {tanggal1: tanggal1, tanggal2: tanggal2},
+        success: function(response){
+            var result = response;
+            generate_chart_pie(document.getElementById("chartChurn"), result.data.label, result.data.data_num, result.data.total, result.data.colors);
+        }
+    });
 });
-var pieChart = new Chart(cartLokasi, {
-  type: 'pie',
-  data: oilData
-});
-var pieChart = new Chart(cartKunjungan, {
-  type: 'pie',
-  data: oilData
-});
-var pieChart = new Chart(cartPelatihan, {
-  type: 'pie',
-  data: oilData
-});
-var pieChart = new Chart(cartChurn, {
-  type: 'pie',
-  data: oilData
-});
+
+function generate_chart_pie(canvas, labels, data, total, colors){
+    var chart = new Chart(canvas, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colors
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    title: function(tooltipItem, data) {
+                        return data['labels'][tooltipItem[0]['index']];
+                    },
+                    label: function(tooltipItem, data) {
+                        return data['datasets'][0]['data'][tooltipItem['index']] + " Member";
+                    },
+                    afterLabel: function(tooltipItem, data) {
+                        var dataset = data['datasets'][0];
+                        var percent = Math.round((dataset['data'][tooltipItem['index']] / total) * 100);
+                        return '(' + percent + '%)';
+                    }
+                }
+            }
+        }
+    });
+    return chart;
+}
 
 $("#tanggal1").datepicker({
     format: 'dd/mm/yyyy',
