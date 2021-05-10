@@ -23,10 +23,14 @@ class StatistikController extends Controller
     public function index(Request $request)
     {
         if(Auth::user()->is_admin == 1){
-            if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){    			
+            if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+                $tanggal1 = $request->query('tanggal1') ?: date('d/m/Y');
+                $tanggal2 = $request->query('tanggal2') ?: date('d/m/Y');
+
                 // View
                 return view('statistik/admin/index', [
-                    //
+                    'tanggal1' => $tanggal1,
+                    'tanggal2' => $tanggal2,
                 ]);
             }
             else{
@@ -208,14 +212,9 @@ class StatistikController extends Controller
                 'message' => 'Sukses!',
                 'data' => [
                     'data_num' => [$userUnder20, $userBetween21_37, $userBetween38_50, $userAfter50],
-                    'data_pcg' => [
-                        round(($userUnder20 / $userTotal) * 100, 2),
-                        round(($userBetween21_37 / $userTotal) * 100, 2),
-                        round(($userBetween38_50 / $userTotal) * 100, 2),
-                        round(($userAfter50 / $userTotal) * 100, 2),
-                    ],
                     'total' => $userTotal,
-                    'label' => ['< 20', '21 - 37', '38 - 50', '> 50']
+                    'label' => ['< 20 Tahun', '21 - 37 Tahun', '38 - 50 Tahun', '> 50 Tahun'],
+                    'colors' => ["#FF6384", "#63FF84", "#84FF63", "#8463FF"]
                 ],
             ]);
         }
@@ -251,12 +250,60 @@ class StatistikController extends Controller
                 'message' => 'Sukses!',
                 'data' => [
                     'data_num' => [$userL, $userP],
-                    'data_pcg' => [
-                        round(($userL / $userTotal) * 100, 2),
-                        round(($userP / $userTotal) * 100, 2)
-                    ],
                     'total' => $userTotal,
-                    'label' => ['Laki-Laki', 'Perempuan']
+                    'label' => ['Laki-Laki', 'Perempuan'],
+                    'colors' => ["#FF6384", "#63FF84"]
+                ],
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data lokasi
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataLokasi(Request $request)
+    {
+        ini_set('max_execution_time', '300');
+
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data total
+            $visitorTotal = Visitor::join('users','visitor.id_user','=','users.id_user')->where('is_admin','=',0)->where('status','=',1)->whereNotIn('ip_address',['','127.0.0.1'])->whereDate('visit_at','>=',generate_date_format($request->query('tanggal1'), 'y-m-d'))->whereDate('visit_at','<=',generate_date_format($request->query('tanggal2'), 'y-m-d'))->get();
+
+            // Get lokasi
+            $visitorJakarta = $visitorJabar = $visitorJateng = $visitorJatim = $visitorLainnya = 0;
+            if(count($visitorTotal)>0){
+                foreach($visitorTotal as $visitor){
+                    $location = Location::get($visitor->ip_address);
+                    if($location){
+                        if($location->regionName == 'Jakarta') $visitorJakarta++;
+                        elseif($location->regionName == 'Jawa Barat') $visitorJabar++;
+                        elseif($location->regionName == 'Jawa Tengah') $visitorJateng++;
+                        elseif($location->regionName == 'Jawa Timur') $visitorJatim++;
+                        else $visitorLainnya++;
+                    }
+                }
+            }
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => [
+                    'data_num' => [$visitorJakarta, $visitorJabar, $visitorJateng, $visitorJatim, $visitorLainnya],
+                    'total' => count($visitorTotal),
+                    'label' => ['Jakarta', 'Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Lainnya'],
+                    'colors' => ["#FF6384", "#63FF84", "#84FF63", "#8463FF", "#FDD100"]
                 ],
             ]);
         }
@@ -285,10 +332,10 @@ class StatistikController extends Controller
             $userLoginA = $userLoginB = $userLoginC = $userLoginD = 0;
             if(count($userTotal)>0){
                 foreach($userTotal as $user){
-                    if(count_visits($user->id_user) == 0) $userLoginA++;
-                    elseif(count_visits($user->id_user) >= 1 && count_visits($user->id_user) <= 5) $userLoginB++;
-                    elseif(count_visits($user->id_user) >= 6 && count_visits($user->id_user) <= 10) $userLoginC++;
-                    elseif(count_visits($user->id_user) > 10) $userLoginD++;
+                    if(count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 0) $userLoginA++;
+                    elseif(count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) >= 1 && count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) <= 5) $userLoginB++;
+                    elseif(count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) >= 6 && count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) <= 10) $userLoginC++;
+                    elseif(count_visits($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) > 10) $userLoginD++;
                 }
             }
             
@@ -298,14 +345,9 @@ class StatistikController extends Controller
                 'message' => 'Sukses!',
                 'data' => [
                     'data_num' => [$userLoginA, $userLoginB, $userLoginC, $userLoginD],
-                    'data_pcg' => [
-                        round(($userLoginA / count($userTotal)) * 100, 2),
-                        round(($userLoginB / count($userTotal)) * 100, 2),
-                        round(($userLoginC / count($userTotal)) * 100, 2),
-                        round(($userLoginD / count($userTotal)) * 100, 2),
-                    ],
                     'total' => count($userTotal),
-                    'label' => ['Tidak Login', 'Login 1 - 5 kali', 'Login 6 - 10 kali', 'Login > 10 kali']
+                    'label' => ['Tidak Login', 'Login 1 - 5 kali', 'Login 6 - 10 kali', 'Login > 10 kali'],
+                    'colors' => ["#FF6384", "#63FF84", "#84FF63", "#8463FF"]
                 ],
             ]);
         }
@@ -334,12 +376,12 @@ class StatistikController extends Controller
             $userPelatihan0 = $userPelatihan1 = $userPelatihan2 = $userPelatihan3 = $userPelatihan4 = $userPelatihanMore = 0;
             if(count($userTotal)>0){
                 foreach($userTotal as $user){
-                    if(count_pelatihan_member($user->id_user) == 0) $userPelatihan0++;
-                    elseif(count_pelatihan_member($user->id_user) == 1) $userPelatihan1++;
-                    elseif(count_pelatihan_member($user->id_user) == 2) $userPelatihan2++;
-                    elseif(count_pelatihan_member($user->id_user) == 3) $userPelatihan3++;
-                    elseif(count_pelatihan_member($user->id_user) == 4) $userPelatihan4++;
-                    elseif(count_pelatihan_member($user->id_user) > 4) $userPelatihanMore++;
+                    if(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 0) $userPelatihan0++;
+                    elseif(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 1) $userPelatihan1++;
+                    elseif(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 2) $userPelatihan2++;
+                    elseif(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 3) $userPelatihan3++;
+                    elseif(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) == 4) $userPelatihan4++;
+                    elseif(count_pelatihan_member($user->id_user, [generate_date_format($request->query('tanggal1'), 'y-m-d'), generate_date_format($request->query('tanggal2'), 'y-m-d')]) > 4) $userPelatihanMore++;
                 }
             }
             
@@ -349,16 +391,9 @@ class StatistikController extends Controller
                 'message' => 'Sukses!',
                 'data' => [
                     'data_num' => [$userPelatihan0, $userPelatihan1, $userPelatihan2, $userPelatihan3, $userPelatihan4, $userPelatihanMore],
-                    'data_pcg' => [
-                        round(($userPelatihan0 / count($userTotal)) * 100, 2),
-                        round(($userPelatihan1 / count($userTotal)) * 100, 2),
-                        round(($userPelatihan2 / count($userTotal)) * 100, 2),
-                        round(($userPelatihan3 / count($userTotal)) * 100, 2),
-                        round(($userPelatihan4 / count($userTotal)) * 100, 2),
-                        round(($userPelatihanMore / count($userTotal)) * 100, 2),
-                    ],
                     'total' => count($userTotal),
-                    'label' => ['Tidak Pernah Ikut', 'Ikut 1 kali', 'Ikut 2 kali', 'Ikut 3 kali', 'Ikut 4 kali', 'Ikut > 4']
+                    'label' => ['Tidak Pernah Ikut', 'Ikut 1 kali', 'Ikut 2 kali', 'Ikut 3 kali', 'Ikut 4 kali', 'Ikut > 4'],
+                    'colors' => ["#FF6384", "#63FF84", "#84FF63", "#8463FF", "#FDD100", "#F8B312"]
                 ],
             ]);
         }
@@ -390,13 +425,9 @@ class StatistikController extends Controller
                 'message' => 'Sukses!',
                 'data' => [
                     'data_num' => [count_churn_rate(1), count_churn_rate(2), count_churn_rate(3)],
-                    'data_pcg' => [
-                        round((count_churn_rate(1) / $total) * 100, 2),
-                        round((count_churn_rate(2) / $total) * 100, 2),
-                        round((count_churn_rate(3) / $total) * 100, 2),
-                    ],
                     'total' => $total,
-                    'label' => ['Tidak Login 1 bulan terakhir', 'Tidak Login 2 bulan terakhir', 'Tidak Login 3 bulan terakhir']
+                    'label' => ['Tidak Login 1 bulan terakhir', 'Tidak Login 2 bulan terakhir', 'Tidak Login 3 bulan terakhir'],
+                    'colors' => ["#FF6384", "#63FF84", "#84FF63"]
                 ],
             ]);
         }

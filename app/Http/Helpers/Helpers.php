@@ -498,16 +498,30 @@ if(!function_exists('count_scripts')){
 
 // Menghitung jumlah kunjungan visitor
 if(!function_exists('count_visits')){
-    function count_visits($user){
-        $data = DB::table('visitor')->where('id_user','=',$user)->get();
-        return count($data);
+    function count_visits($user, $tanggal = []){
+        if($tanggal == [])
+            $data = DB::table('visitor')->where('id_user','=',$user)->count();
+        else{
+            if(count($tanggal) == 2)
+                $data = DB::table('visitor')->where('id_user','=',$user)->whereDate('visit_at','>=',$tanggal[0])->whereDate('visit_at','<=',$tanggal[1])->count();
+            else
+                $data = DB::table('visitor')->where('id_user','=',$user)->count();
+        }
+        return $data;
     }
 }
 
 // Menghitung jumlah pelatihan member
 if(!function_exists('count_pelatihan_member')){
-    function count_pelatihan_member($user){
-        $data = DB::table('pelatihan_member')->where('id_user','=',$user)->count();
+    function count_pelatihan_member($user, $tanggal = []){
+        if($tanggal == [])
+            $data = DB::table('pelatihan_member')->where('id_user','=',$user)->count();
+        else{
+            if(count($tanggal) == 2)
+                $data = DB::table('pelatihan_member')->where('id_user','=',$user)->whereDate('pm_at','>=',$tanggal[0])->whereDate('pm_at','<=',$tanggal[1])->count();
+            else
+                $data = DB::table('pelatihan_member')->where('id_user','=',$user)->count();
+        }
         return $data;
     }
 }
