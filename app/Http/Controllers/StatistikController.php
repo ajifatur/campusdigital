@@ -287,9 +287,9 @@ class StatistikController extends Controller
                     $location = Location::get($visitor->ip_address);
                     if($location){
                         if($location->regionName == 'Jakarta') $visitorJakarta++;
-                        elseif($location->regionName == 'Jawa Barat') $visitorJabar++;
-                        elseif($location->regionName == 'Jawa Tengah') $visitorJateng++;
-                        elseif($location->regionName == 'Jawa Timur') $visitorJatim++;
+                        elseif($location->regionName == 'West Java') $visitorJabar++;
+                        elseif($location->regionName == 'Central Java') $visitorJateng++;
+                        elseif($location->regionName == 'East Java') $visitorJatim++;
                         else $visitorLainnya++;
                     }
                 }
