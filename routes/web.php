@@ -365,10 +365,12 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/absensi/export', 'AbsensiController@export');
 
 	// Statistik
-	Route::get('/admin/statistik', 'StatistikController@index');
+	Route::get('/admin/statistik/umum', 'StatistikController@umum');
+	Route::get('/admin/statistik/pelatihan', 'StatistikController@pelatihan');
+	Route::get('/admin/statistik/pelatihan/{id_pelatihan}/member/{id_member}', 'StatistikController@pelatihanMember');
 	Route::get('/admin/statistik/visitor', 'StatistikController@visitor');
 	Route::get('/admin/statistik/top-visitor', 'StatistikController@topVisitor');
-	Route::get('/admin/statistik/file-reader', 'StatistikController@fileReader');
+	// Route::get('/admin/statistik/file-reader', 'StatistikController@fileReader');
 	Route::get('/admin/statistik/aktivitas/{id}', 'StatistikController@detailAktivitas');
 
 	// Statistik API
@@ -378,6 +380,8 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/api/statistik/kunjungan-member', 'StatistikController@dataKunjunganMember');
 	Route::get('/admin/api/statistik/pelatihan-member', 'StatistikController@dataPelatihanMember');
 	Route::get('/admin/api/statistik/churn-rate-member', 'StatistikController@dataChurnRateMember');
+	Route::get('/admin/api/statistik/member-pelatihan/{id}', 'StatistikController@dataMemberPelatihan');
+	Route::get('/admin/api/statistik/member-pelatihan/login/{id}', 'StatistikController@dataMemberPelatihanLogin');
 	
 	// File Tidak Terpakai
 	Route::get('/admin/file/unused', 'FileController@unused');

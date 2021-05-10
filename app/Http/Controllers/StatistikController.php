@@ -9,18 +9,20 @@ use Illuminate\Validation\Rule;
 use Stevebauman\Location\Facades\Location;
 use App\Aktivitas;
 use App\FileReader;
+use App\Pelatihan;
+use App\PelatihanMember;
 use App\User;
 use App\Visitor;
 
 class StatistikController extends Controller
 {
     /**
-     * Menampilkan data statistik
+     * Menampilkan statistik umum
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function umum(Request $request)
     {
         if(Auth::user()->is_admin == 1){
             if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
@@ -28,9 +30,68 @@ class StatistikController extends Controller
                 $tanggal2 = $request->query('tanggal2') ?: date('d/m/Y');
 
                 // View
-                return view('statistik/admin/index', [
+                return view('statistik/admin/umum', [
                     'tanggal1' => $tanggal1,
                     'tanggal2' => $tanggal2,
+                ]);
+            }
+            else{
+                // View
+                return view('error/forbidden');
+            }
+        }
+    }
+
+    /**
+     * Menampilkan statistik pelatihan
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function pelatihan(Request $request)
+    {
+        if(Auth::user()->is_admin == 1){
+            if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+                // Data pelatihan
+                $pelatihan = Pelatihan::join('users','pelatihan.trainer','=','users.id_user')->orderBy('tanggal_pelatihan_from','desc')->get();
+
+                // View
+                return view('statistik/admin/pelatihan', [
+                    'pelatihan' => $pelatihan,
+                ]);
+            }
+            else{
+                // View
+                return view('error/forbidden');
+            }
+        }
+    }
+
+    /**
+     * Menampilkan statistik pelatihan member
+     *
+     * int $id_pelatihan
+     * int $id_member
+     * @return \Illuminate\Http\Response
+     */
+    public function pelatihanMember($id_pelatihan, $id_member)
+    {
+        if(Auth::user()->is_admin == 1){
+            if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+                // Data pelatihan
+                $pelatihan = Pelatihan::join('users','pelatihan.trainer','=','users.id_user')->orderBy('tanggal_pelatihan_from','desc')->get();
+
+                // Data member pelatihan
+                $pelatihan_member = PelatihanMember::join('pelatihan','pelatihan_member.id_pelatihan','=','pelatihan.id_pelatihan')->join('users','pelatihan_member.id_user','=','users.id_user')->where('pelatihan_member.id_pelatihan','=',$id_pelatihan)->orderBy('nama_user','asc')->get();
+
+                // Data user
+                $member = PelatihanMember::join('pelatihan','pelatihan_member.id_pelatihan','=','pelatihan.id_pelatihan')->join('users','pelatihan_member.id_user','=','users.id_user')->where('pelatihan_member.id_pelatihan','=',$id_pelatihan)->where('pelatihan_member.id_user','=',$id_member)->firstOrFail();
+
+                // View
+                return view('statistik/admin/pelatihan', [
+                    'pelatihan' => $pelatihan,
+                    'pelatihan_member' => $pelatihan_member,
+                    'member' => $member,
                 ]);
             }
             else{
@@ -430,6 +491,96 @@ class StatistikController extends Controller
                     'colors' => ["#FF6384", "#63FF84", "#84FF63"]
                 ],
             ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data member pelatihan
+     *
+     * string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function dataMemberPelatihan($id)
+    {
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data member pelatihan
+            $member = PelatihanMember::join('pelatihan','pelatihan_member.id_pelatihan','=','pelatihan.id_pelatihan')->join('users','pelatihan_member.id_user','=','users.id_user')->where('pelatihan_member.id_pelatihan','=',$id)->orderBy('nama_user','asc')->get();
+            
+            // Response
+            return response()->json([
+                'status' => 200,
+                'message' => 'Sukses!',
+                'data' => $member
+            ]);
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data login member pelatihan
+     *
+     * string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function dataMemberPelatihanLogin($id)
+    {
+        ini_set('max_execution_time', '300');
+
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data member pelatihan
+            $member = PelatihanMember::join('pelatihan','pelatihan_member.id_pelatihan','=','pelatihan.id_pelatihan')->join('users','pelatihan_member.id_user','=','users.id_user')->find($id);
+            
+            if($member){
+                // Array data
+                $tanggal = [];
+                $visit = [];
+                $tanggal_awal = $member->tanggal_pelatihan_from;
+                $tanggal_akhir = $member->tanggal_pelatihan_to;
+                while(strtotime($tanggal_awal) < strtotime($tanggal_akhir)){
+                    // Custom data
+                    $count_visit = Visitor::where('id_user','=',$member->id_user)->whereDate('visit_at','=',$tanggal_awal)->count();
+
+                    // Push first
+                    array_push($tanggal, date('d/m/Y', strtotime($tanggal_awal)));
+                    array_push($visit, $count_visit);
+
+                    // Replace then
+                    $tanggal_awal = date("Y-m-d", strtotime("+1 day", strtotime($tanggal_awal)));
+                }
+
+                // Response
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Sukses!',
+                    'data' => [
+                        'tanggal' => $tanggal,
+                        'visit' => $visit,
+                    ]
+                ]);
+            }
+            else{
+                // Response
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Not Found!',
+                    'data' => [],
+                ]);
+            }
         }
         else{
             // Response

@@ -6,12 +6,13 @@
      <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Statistik</h4>
+                <h4 class="page-title">Statistik Umum</h4>
                 <div class="ml-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Statistik</li>
+                            <li class="breadcrumb-item"><a href="/admin/statistik">Statistik</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Umum</li>
                         </ol>
                     </nav>
                 </div>
@@ -26,7 +27,7 @@
                     <p class="m-0">Mulai</p>            
                     <div class="input-group">
                     <div class="input-group-prepend">
-                        <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                    <span class="input-group-text bg-warning"><i class="fa fa-calendar"></i></span>
                     </div>
                     <input type="text" name="tanggal1" id="tanggal1" class="form-control form-control-sm" value="{{ $tanggal1 }}" readonly>
                     </div>
@@ -35,7 +36,7 @@
                     <p class="m-0">Akhir</p>
                     <div class="input-group">
                     <div class="input-group-prepend">
-                        <a href="#" class="btn btn-sm btn-primary btn-date"><i class="fa fa-calendar"></i></a>
+                        <span class="input-group-text bg-warning"><i class="fa fa-calendar"></i></span>
                     </div>
                     <input type="text" name="tanggal2" id="tanggal2" class="form-control form-control-sm" value="{{ $tanggal2 }}" readonly>
                     </div>
