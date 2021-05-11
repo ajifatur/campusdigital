@@ -53,6 +53,7 @@
         <hr>
         @if(isset($member))
         <div class="row">
+            <!--
             <div class="col-lg-3">
                 <div class="card shadow">
                     <div class="card-body">
@@ -68,9 +69,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
+            -->
+            <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-4">
                         <div class="card shadow">
                             <div class="card-header bg-transparent">
                                 <p class="font-weight-bold m-0">Login</p>
@@ -78,6 +80,28 @@
                             </div>
                             <div class="card-body">
                                 <canvas id="chartLogin" width="600" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <p class="font-weight-bold m-0">Belajar E-Course</p>
+                                <p class="m-0 text-muted">Statistik Belajar E-Course</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartCourse" width="600" height="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <p class="font-weight-bold m-0">Belajar E-Book</p>
+                                <p class="m-0 text-muted">Statistik Belajar E-Book</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartBook" width="600" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -147,8 +171,13 @@ function generate_chart_line(selector, label, color, labels, data){
             scales: {
                 yAxes: [{
                     ticks: {
+                        min: 0,
                         beginAtZero: true,
-                        stepSize: 1
+                        callback: function(value, index, values){
+                            if(Math.floor(value) === value){
+                                return value;
+                            }
+                        }
                     }
                 }]
             }
@@ -163,7 +192,23 @@ $(function(){
         success: function(response){
             generate_chart_line("chartLogin", "Login", "#da542e", response.data.tanggal, response.data.visit);
         }
-    })
+    });
+
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/member-pelatihan/aktivitas/{{ $member->id_pm }}",
+        success: function(response){
+            generate_chart_line("chartCourse", "Belajar E-Course", "#28b779", response.data.tanggal, response.data.view_ecourse);
+        }
+    });
+
+    $.ajax({
+        type: "get",
+        url: "/admin/api/statistik/member-pelatihan/aktivitas/{{ $member->id_pm }}",
+        success: function(response){
+            generate_chart_line("chartBook", "Belajar E-Book", "#27a9e3", response.data.tanggal, response.data.view_ebook);
+        }
+    });
 });
 </script>
 @endif

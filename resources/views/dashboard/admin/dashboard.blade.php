@@ -141,8 +141,13 @@
 				scales: {
 					yAxes: [{
 						ticks: {
+							min: 0,
 							beginAtZero: true,
-							//stepSize: 2
+							callback: function(value, index, values){
+						        if(Math.floor(value) === value){
+						            return value;
+						        }
+						    }
 						}
 					}]
 				}
