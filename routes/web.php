@@ -382,6 +382,7 @@ Route::group(['middleware' => ['admin']], function(){
 	Route::get('/admin/api/statistik/churn-rate-member', 'StatistikController@dataChurnRateMember');
 	Route::get('/admin/api/statistik/member-pelatihan/{id}', 'StatistikController@dataMemberPelatihan');
 	Route::get('/admin/api/statistik/member-pelatihan/login/{id}', 'StatistikController@dataMemberPelatihanLogin');
+	Route::get('/admin/api/statistik/member-pelatihan/aktivitas/{id}', 'StatistikController@dataMemberPelatihanAktivitas');
 	
 	// File Tidak Terpakai
 	Route::get('/admin/file/unused', 'FileController@unused');

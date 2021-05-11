@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Stevebauman\Location\Facades\Location;
 use App\Aktivitas;
+use App\Files2;
 use App\FileReader;
 use App\Pelatihan;
 use App\PelatihanMember;
@@ -570,6 +571,94 @@ class StatistikController extends Controller
                     'data' => [
                         'tanggal' => $tanggal,
                         'visit' => $visit,
+                    ]
+                ]);
+            }
+            else{
+                // Response
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Not Found!',
+                    'data' => [],
+                ]);
+            }
+        }
+        else{
+            // Response
+            return response()->json([
+                'status' => 403,
+                'message' => 'Forbidden!',
+                'data' => [],
+            ]);
+        }
+    }
+
+    /**
+     * Data aktivitas member pelatihan
+     *
+     * string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function dataMemberPelatihanAktivitas($id)
+    {
+        ini_set('max_execution_time', '300');
+
+        if(Auth::user()->role == role_it() || Auth::user()->role == role_manajer() || Auth::user()->role == role_mentor()){
+            // Data member pelatihan
+            $member = PelatihanMember::join('pelatihan','pelatihan_member.id_pelatihan','=','pelatihan.id_pelatihan')->join('users','pelatihan_member.id_user','=','users.id_user')->find($id);
+            
+            if($member){
+                // Array data
+                $tanggal = [];
+                $view_ebook = [];
+                $view_ecourse = [];
+                $tanggal_awal = $member->tanggal_pelatihan_from;
+                $tanggal_akhir = $member->tanggal_pelatihan_to;
+                while(strtotime($tanggal_awal) < strtotime($tanggal_akhir)){
+                    // Count
+                    $count_view_ebook = 0;
+                    $count_view_ecourse = 0;
+
+                    // Aktivitas
+                    $aktivitas = Aktivitas::where('id_user','=',$member->id_user)->whereDate('aktivitas_at','=',$tanggal_awal)->get();
+                    if(count($aktivitas)>0){
+                        foreach($aktivitas as $data){
+                            $data->aktivitas = json_decode($data->aktivitas, true);
+                            foreach($data->aktivitas as $row){
+                                // Path format baru
+                                if(is_int(strpos($row['path'], '/member/file-manager/view/'))){
+                                    $id_file = str_replace('/member/file-manager/view/', '', $row['path']);
+                                    $file = Files2::find($id_file);
+                                    if($file){
+                                        if($file->file_kategori == 1) $count_view_ecourse++;
+                                        elseif($file->file_kategori >= 4 && $file->file_kategori <= 6) $count_view_ebook++;
+                                    }
+                                }
+                                // Path course format lama
+                                elseif(is_int(strpos($row['path'], '/member/e-course/detail/'))) $count_view_ecourse++;
+                                // Path course format lama
+                                elseif(is_int(strpos($row['path'], '/member/materi/e-learning/view/')) || is_int(strpos($row['path'], '/member/materi/e-library/view/')) || is_int(strpos($row['path'], '/member/materi/e-competence/view/'))) $count_view_ebook++;
+                            }
+                        }
+                    }
+
+                    // Push first
+                    array_push($tanggal, date('d/m/Y', strtotime($tanggal_awal)));
+                    array_push($view_ebook, $count_view_ebook);
+                    array_push($view_ecourse, $count_view_ecourse);
+
+                    // Replace then
+                    $tanggal_awal = date("Y-m-d", strtotime("+1 day", strtotime($tanggal_awal)));
+                }
+
+                // Response
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Sukses!',
+                    'data' => [
+                        'tanggal' => $tanggal,
+                        'view_ebook' => $view_ebook,
+                        'view_ecourse' => $view_ecourse,
                     ]
                 ]);
             }
